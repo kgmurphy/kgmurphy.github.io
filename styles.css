@@ -1,0 +1,12 @@
+body, html {
+  background-color: blanchedalmond;
+  border: solid 2px #000; }
+
+@font-face {
+  font-family: "Jetbrains";
+  src: url("../fonts/Jetbrains/ttf/JetBrainsMono-Light.ttf");
+  src: url("../fonts/Jetbrains/ttf/JetBrainsMono-Light.ttf?#iefix") format("embedded-opentype"), url("../fonts/Jetbrains/ttf/JetBrainsMono-Light.ttf") format("truetype"), url("../fonts/Jetbrains/ttf/JetBrainsMono-Light.ttf") format("ttf"); }
+
+* {
+  font-family: Jetbrains;
+  font-size: 13px; }
