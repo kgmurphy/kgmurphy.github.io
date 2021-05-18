@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<title>Perlin noise</title>
+<head>
+<style>
+.centerbox {
+  /* flexbox, por favor */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-pack: center;
+  -moz-box-align: center;
+
+  width: 100%;
+  height: 100%;
+  margin: 0; padding: 0;
+}
+body, html { width: 100%; height: 100%; padding: 0; margin: 0; }
+canvas {
+  width: 1024px;
+  height: 768px;
+}
+body {
+  background-color: #eee;
+}
+</style>
+</head>
+<html>
+<body>
+    
+
+<div class='centerbox'><canvas id="canvas"></canvas></div>
+
+
+<script src='js/perlin.js'></script>
+<script src="marchingsquares.min.js"></script>
+<script>
+var canvas = document.getElementById("canvas"),
+    context = canvas.getContext("2d"),
+    width = canvas.width = window.innerWidth,
+    height = canvas.height = window.innerHeight;
+
+
+
+//render();
+
+function render() {
+    context.clearRect(0, 0, width, height);
+    let r = noise.seed(Math.random()) * 255;
+    console.log(r);
+  var res = 4;
+  for(var x = 0; x < width; x += res) {
+    for(var y = 0; y < height; y += res) {
+      var value = getValue(x, y);
+      context.save();
+      context.translate(x, y);
+      context.rotate(value);
+      context.beginPath();
+      context.moveTo(0, 0);
+      context.lineTo(res * 1.5, 0);
+      context.stroke();
+      context.restore();
+    }
+  }
+  requestAnimationFrame(render);
+}
+
+function getValue(x, y) {
+  var scale = 0.0004;
+  return noise.perlin2(x * scale, y * scale) * Math.PI * 9;
+}
+
+</script>
+
+
+<script>
+
+</script>
+</body>
+</html>

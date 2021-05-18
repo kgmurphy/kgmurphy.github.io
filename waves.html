@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kongsberg Flip</title>
+
+    <style>
+        html,body {
+            background-color: #15191C;
+        }
+
+        section{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .scene {
+            width: 200px;
+            height: 200px;
+            perspective: 1000px;
+            }
+
+
+    @keyframes flipY{
+    from {
+        -webkit-transform: rotateY(180deg);
+    }
+    
+    to {
+        -webkit-transform: rotateY(-180deg);
+    }
+    
+}
+
+.sea {
+    width: 200px;
+    height: 200px;
+    background-image: url('orb-front.png');
+    background-position: center;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    transition: transform 8s;
+    transform-style: preserve-3d;
+    animation: flipY 3s infinite;
+
+}
+
+
+.is-flipped {
+    animation: flipY 4s forwards;
+}
+
+.wave {
+  background: url(amazonwave.svg) repeat-x; 
+  position: absolute;
+  width: 3400px;
+  bottom:-60px;
+  height: 200px;
+  animation: wave 7s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;
+  transform: translate3d(0, 0, 0);
+  opacity: 0.75;
+}
+
+.wave:nth-of-type(2) {
+  animation: wave 7s cubic-bezier( 0.26, 0.425, 0.23, 0.53) -.125s infinite, swell 7s ease -1.25s infinite;
+  opacity: 0.9;
+}
+
+.wave:nth-of-type(3) {
+  animation: wave 7s cubic-bezier( 0.26, 0.425, 0.23, 0.53) .125s infinite, swell_2 7s ease -1.25s infinite;
+  opacity: 0.3;
+}
+
+@keyframes wave {
+  0% {
+    margin-left: 0;
+  }
+  100% {
+    margin-left: -1600px;
+  }
+}
+
+@keyframes swell {
+  0%, 100% {
+    transform: translate3d(0,-25px,0);
+  }
+  50% {
+    transform: translate3d(0,5px,0);
+  }
+}
+
+@keyframes swell_2 {
+  0%, 100% {
+    transform: translate3d(0,-55px,0);
+  }
+  50% {
+    transform: translate3d(0,25px,0);
+  }
+}
+
+.spacer {
+   
+}
+
+    </style>
+</head>
+<body>
+    <section>
+    <div class="scene">
+        <div class="sea">
+            <div class="spacer">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
+        </div>
+      </div>
+
+    </section>
+</body>
+
+<script>
+    var card = document.querySelector('.seax');
+    card.addEventListener( 'click', function() {
+    card.classList.toggle('is-flipped');
+});
+</script>
+</html>

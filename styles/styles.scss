@@ -1,7 +1,7 @@
 
 
 body, html {
-    background-color: hotpink;
+    background-color:#222;
     }
     
     @font-face {
@@ -20,16 +20,22 @@ body, html {
     }
 
     details {
-        border: solid 1px rgba(0,0,0,0.2);
+        
         border-radius: 0.5rem;
         margin: 0.5rem;
         padding: 1rem;
+        background-color: #000;
+        color: #fff;
+
 
         &:hover {
             background-color: indigo;
             color: white;
+            box-shadow: 4px 4px 4px 4px #fff;
         }
+
     }
+
 
     summary {
         font-size: 1.5em;
@@ -52,4 +58,19 @@ body, html {
             flex: 1;
             flex-direction: column;
         }
+    }
+
+
+    /*-- SVG --*/
+
+    svg {
+        fill: #fff;
+        stroke: #fff;
+    }
+
+
+    /*-- PNG --*/
+
+    img {
+        border-radius: 4px;
     }

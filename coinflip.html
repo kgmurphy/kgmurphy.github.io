@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kongsberg Flip</title>
+
+    <style>
+        html,body {
+            background-color: #15191C;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        section{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .scene {
+            width: 216px;
+            height: 216px;
+            perspective: 600px;
+            }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 1s;
+            transform-style: preserve-3d;
+
+            /*animation: flipY 6s infinite;*/
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: solid 2px rgb(59, 59, 59);
+            border-radius: 50%;
+            border-style: dotted;
+            background-color: #666;
+            background:linear-gradient(#252525,#7e7e7e,#525252,#3a3a3a);
+
+            }
+
+        .inner-ring-1 {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            border: solid 4px rgb(95, 95, 95);
+            border-radius: 50%;
+        }
+
+        .inner-ring-2 {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            border: solid 1px rgb(80, 76, 76);
+            border-radius: 50%;
+        }
+
+        .inner-ring-3 {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            border: solid 1px rgb(87, 86, 86);
+            border-radius: 50%;
+            margin: 2px;
+        }
+
+        .card__face {
+            position: absolute;
+            backface-visibility: hidden;
+            top:0;
+            left: 0;
+            z-index: 1000;
+            padding: 1rem;
+            }
+
+        .card__face--front {
+            top: 0;
+            left: 0;
+            }
+
+        .card__face--front {
+            box-shadow: 0 5px 15px rgba(183, 0, 255, 0.8);
+            transition: opacity 0.3s ease-in-out;
+            }
+
+        .card__face--back {
+
+            transform: rotateY( 180deg );
+
+        }
+
+        .card.is-flipped {
+            transform: rotateY(180deg);
+            }
+
+            @keyframes flipY{
+            from {
+                -webkit-transform: rotateY(180deg);
+            }
+            
+            to {
+                -webkit-transform: rotateY(-180deg);
+            }
+        }
+
+
+        /*waves*/
+        .waves {
+            width: 184px;
+            height: 184px;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 1000;
+
+            overflow: hidden;
+            border: #666 1px solid;
+
+        }
+        .waves::after {
+            box-shadow: inset 0 0 30px #000000;
+        }
+
+        @keyframes wave {
+            0% {
+                margin-left: 0;
+            }
+            100% {
+                margin-left: -1600px;
+            }
+            }
+
+            @keyframes swell {
+            0%, 100% {
+                transform: translate3d(0,-25px,0);
+            }
+            50% {
+                transform: translate3d(0,5px,0);
+            }
+            }
+
+        .wave {
+            background: url(amazonwave.svg) repeat-x; 
+            position: absolute;
+            width: 2400px;
+            bottom:-60px;
+            height: 200px;
+            animation: wave 6s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;
+            transform: translate3d(0, 0, 0);
+            opacity: 0.75;
+            z-index: 1;
+
+            }
+
+            .wave:nth-of-type(2) {
+            animation: wave 6s cubic-bezier( 0.26, 0.425, 0.23, 0.53) -1.25s infinite, swell 6s ease -1.25s infinite;
+            opacity: 0.9;
+            z-index: 1;
+            }
+
+            .wave:nth-of-type(3) {
+            animation: wave 6s cubic-bezier( 0.26, 0.425, 0.23, 0.53) 1.25s infinite, swell_2 6s ease -1.25s infinite;
+            opacity: 0.3;
+            z-index: 1;
+            }
+
+            /*glow*/
+            /*
+            .glow {
+            position: relative;
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+            margin: 50px;
+}
+.glow:before,
+.glow:after, span {
+  position: absolute;
+  content: '';
+  height: 100%;
+  width: 100%;
+  top: 0%;
+  left: 0%;
+  border-radius: 50%;
+  box-shadow: 0 0 15px #287ec6;
+  animation: glow-grow 2s ease-out infinite;
+}
+.glow:after {
+  animation-delay: .66s;
+}
+
+@keyframes glow-grow {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+*/
+/*-- ORB GLOW --*/
+
+
+    </style>
+</head>
+<body>
+    <section>
+        
+        <div class="scene">
+            <div class="card">
+                <div class="inner-ring-1">
+                    <div class="inner-ring-2">
+                        <div class="inner-ring-3">
+                            <div class="glow"></div>
+                        </div> 
+                    </div> 
+                </div> 
+
+
+                <div class="waves">
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                </div>
+            
+                
+                <div class="card__face card__face--front"><img src="orb-front.png" width="184" height="184" alt="" class="orb-front"></div>
+
+                <div class="card__face card__face--back"><img src="me.png" width="184" height="184" alt=""></div>
+
+                       
+            </div>
+          </div>
+    </section>
+</body>
+
+<script>
+var card = document.querySelector('.card');
+card.addEventListener( 'click', function() {
+  card.classList.toggle('is-flipped');
+});
+</script>
+</html>

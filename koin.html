@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeSandro Flip</title>
+
+    <style>
+        html,body {
+            background-color: #15191C;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        section{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100vh;
+        }
+
+        :root {
+            --coin-size: 200px;
+        }
+
+        .scene {
+            width: var(--coin-size);
+            height: var(--coin-size);
+ 
+        }
+
+        .coin {
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            position: relative; /*-for the faces-*/
+            animation: flipY 6s infinite;
+        }
+
+        .coin-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            backface-visibility: hidden;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .heads {
+            background:linear-gradient(#252525,#7e7e7e,#525252,#3a3a3a);
+            background-image: url('coin-front.png');
+            background-size: contain;
+        }
+
+        .tails {
+            background-color: grey;
+            transform: rotateY(180deg);
+            background-image: url('coin-back.png');
+            background-size: contain;
+        }
+
+        .tails-g {
+            background-image: url('coin-back-g.png');
+        }
+
+        @keyframes flipY{
+            from {
+                transform: rotateY(180deg);
+            }
+            
+            to {
+                transform: rotateY(-180deg);
+            }
+        }
+
+        /*--WAVES--*/
+        .waves {
+            width: 124px;
+            height: 124px;
+            border-radius: 50%;
+            position: absolute;
+            overflow: hidden;
+            border: #666 1px solid;
+        }
+        .waves::after {
+            box-shadow: inset 0 0 30px #000000;
+        }
+
+        @keyframes wave {
+            0% {
+                margin-left: 0;
+            }
+            100% {
+                margin-left: -1600px;
+            }
+            }
+
+            @keyframes swell {
+            0%, 100% {
+                transform: translate3d(0,0px,0);
+            }
+            50% {
+                transform: translate3d(0,5px,0);
+            }
+            }
+
+        .wave {
+            background: url(amazonwave.svg) repeat-x; 
+            position: absolute;
+            width: 2400px;
+            bottom:-60px;
+            height: 200px;
+            animation: wave 6s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;
+            transform: translate3d(0, 0, 0);
+            opacity: 0.75;
+            z-index: 1;
+
+            }
+
+            .wave:nth-of-type(2) {
+            animation: wave 6s cubic-bezier( 0.26, 0.425, 0.23, 0.53) -1.25s infinite, swell 6s ease -1.25s infinite;
+            opacity: 0.9;
+            z-index: 1;
+            }
+
+            .wave:nth-of-type(3) {
+            animation: wave 6s cubic-bezier( 0.26, 0.425, 0.23, 0.53) 1.25s infinite, swell_2 6s ease -1.25s infinite;
+            opacity: 0.3;
+            z-index: 1;
+            }
+
+            /*--DECORATION RINGS--*/
+            .ring {
+                width: 97%;
+                height: 97%;              
+                margin: 1px;
+                position: absolute;
+                z-index: 1200;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: solid 1px rgba(0,0,0,0.125);
+
+            }
+
+            .border-dotted {
+                border: 1.5px dotted #555;
+            }
+
+            .border-double {
+                border: 5px double rgba(0,0,0,0.25);
+            }
+
+            svg {
+                position: absolute;
+                text-shadow: 1px 1px 0px rgba(0,0,0,0.25), 1px -1px 0px rgba(255,255,255,.125);
+                word-spacing: 1500%;
+            }
+
+            img {
+                filter: brightness(90%);
+            }
+    </style>
+</head>
+<body>
+    <section>
+        <div class="scene">
+            <div class="coin" id="coin">
+                <div class="coin-face heads border-dotted ">
+
+                    <div class="ring border-double">
+                        <div class="ring">
+                       
+                        </div>
+                    </div>
+                </div>
+                <div class="coin-face tails" id="backside">
+                    <div class="waves" id="waves">
+                        <div class="wave"></div>
+                        <div class="wave"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+<script>
+    let backside = document.getElementById('backside');
+    let coin = document.getElementById('coin');
+    let waves = document.getElementById('waves');
+
+    coin.addEventListener( 'click', function(){
+        backside.classList.add('tails-g');
+        waves.style.visibility = 'hidden';
+    });
+    
+</script>
+
+</html>

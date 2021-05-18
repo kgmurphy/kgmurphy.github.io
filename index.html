@@ -20,8 +20,9 @@
         <details>Hello</details>
     </section>
     <section>
-        <details>
+        <details class="details">
             <summary>System Requirements <div>Hola muthafukka</div></summary>
+            <img src="images/dip.png" alt="">
             <p>
             Vi produserer pølser ukentlig på bestilling. Varene du ser i nettbutikken her er tilgjengelig kun denne uka. Hvis du handler innen tirsdag kan varene dine leveres hjem til deg (kun Oslo) fredag 10-16 eller hentes hos oss enten på Fettgreven (Storgata 36, inng. Christian Kroghs gate 15, gjennom hagen til forsiden av fabrikkbygget) på fredag mellom 15:00 og 17:30 eller på Gutta fra Havet i Sandvika.
             </p>
@@ -29,5 +30,20 @@
         <details>Hello</details>
     </section>
 </section>
+<script src="js/simplex-noise.js"></script>
+<script>
+    import SimplexNoise from 'simplex-noise';
+    const simplex = new SimplexNoise();
+
+    let gridSize = 20;
+    for (let y = 0; y < gridSize[1]; y++) {
+        for (let x = 0; x < gridSize[0]; x++) {
+            const n = simplex.noise2D(
+            x / (gridSize[0] * 0.75),
+            y / (gridSize[1] * 0.75)
+            );
+        }
+    }
+</script>
 </body>
 </html>
