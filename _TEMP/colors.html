@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="styles/normalise.css">
+    <link rel="stylesheet" href="styles/typography.css">
+    <link rel="stylesheet" href="styles/colors.css">
+
+</head>
+<body>
+<section id="color_section">
+    <p>color schemes</p>
+
+</section>
+<script>
+var r = document.querySelector(':root');
+let color_section = document.getElementById('color_section');
+let count = 10;
+let pc = 100;
+let x = 10;
+for(var i = 0; i < count; i++){
+    let color_box = document.createElement('div');
+    
+   
+    //var rs = getComputedStyle(r);
+   
+
+    color_box.classList.add('bg');
+    x += 10;
+    r.style.setProperty('--bvarvar', x);
+ 
+    //color_box.style.backgroundColor = "rgb(x,x,x)";
+    color_section.appendChild(color_box); 
+    console.log(rs);
+
+
+    
+}
+
+</script>
+</body>
+</html>
