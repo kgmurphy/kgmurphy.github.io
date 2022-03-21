@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+
+    <link rel="stylesheet" href="../_STYLES/ui.css">
+    <style>
+
+/* a few variables...*/
+        :root {
+        --color-background: #010101;
+        --color-alpha-light: 0.15;
+        --color-alpha-extralight: 0.15;
+        --color-vertical-lines: rgba(255, 255, 255, var(--color-alpha-extralight));
+        --color-horizontal-lines: rgba(255, 255, 255, var(--color-alpha-extralight));
+        --color-diagonal-lines: rgba(255, 255, 255, var(--color-alpha-light));
+        --line-thickness-1: 0.05rem;
+        --box-size: 8px;
+        --stop: 44px;
+        --start: 45px;
+        }
+
+
+        /*-- Typography --*/
+        @font-face {
+        /*
+        font-family: "Lato-Black";
+        src: url("_FONTS/Lato/Lato-Black.ttf");
+        src: url("_FONTS/Lato/Lato-Black.ttf?#iefix") format("embedded-opentype"), 
+        url("_FONTS/Lato/Lato-Black.ttf") format("truetype"), 
+        url("_FONTS/Lato/Lato-Black.ttf") format("ttf");
+        */
+
+        font-family: "Lato";
+        src: url("_FONTS/Lato/Lato-Regular.ttf");
+        src: url("_FONTS/Lato/Lato-Regular.ttf?#iefix") format("embedded-opentype"), url("_FONTS/Lato/Lato-Regular.ttf") format("truetype"), url("_FONTS/Lato/Lato-Regular.ttf") format("ttf");
+        }
+
+        body , html {
+            background-color: #222;
+        background-image: linear-gradient(var(--color-vertical-lines) var(--line-thickness-1), transparent var(--line-thickness-1)), linear-gradient(90deg, var(--color-horizontal-lines) var(--line-thickness-1), transparent var(--line-thickness-1));
+        background-size: var(--box-size) var(--box-size), var(--box-size) var(--box-size), var(--box-size) var(--box-size), var(--box-size) var(--box-size);
+        background-position: 0 0, -0.5px 0, 0 0, 0 0;
+        }
+
+        section {
+            padding: 4rem;
+            width: 100%;
+
+
+            display: flex;
+            flex-wrap: wrap;
+
+            justify-content: center;
+
+        }
+
+        .kpi_wrapper {
+            display: flex;
+            flex-direction: row;
+            margin-right: 4rem;
+        }
+
+
+        * {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+            .unit_left{
+                color: #ccc;
+                background-color: rgba(255,255,255, 0.15);
+                font-size: 2.8125em;
+                line-height: 2.8125em;
+            }
+
+            .m {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .unit_right{
+                color: #ccc;
+                background-color: rgba(255,255,255, 0.15);
+                font-size: 2.8125em;
+                line-height: 2.8125em;
+            }
+            
+            .kpi {
+                font-size: 5.625em;
+                line-height: 5.625rem;
+                color:aqua;
+                background-color: rgba(255,0,255, 0.15);
+            }
+
+
+
+    </style>
+</head>
+<body>
+<section id="main">
+<div class="kpi_wrapper">
+    <span class="unit_left">ºC</span>
+    <span class="kpi">00.00</span>
+    <span class="unit_right">ºC</span>
+</div>
+<br><br><br>
+<div class="kpi_wrapper">
+    <span class="unit_left m">m</span>
+    <span class="kpi">00.00</span>
+    <span class="unit_right m">m</span>
+</div>
+</section>
+</body>
+</html>
+
+
+
+
+<script>
+
+
+    
+
+</script>

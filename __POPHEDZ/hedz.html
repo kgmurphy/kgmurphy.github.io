@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <script src="js/p5.min.js"></script>
+    <script src="https://unpkg.com/p5.js-svg@1.1.1"></script>
+
+<style>
+  canvas {
+    z-index: 1000;
+    position: absolute;
+    top: 0;
+  }
+</style>
+
+</head>
+<body>
+
+<script>
+
+  let cnv;
+  let step = 100;
+  let r;
+  let g;
+  let b;
+  let randy;
+  let heads  = [];
+  let bodies = [];
+  let eyes_arr = [];
+  let feet_arr = [];
+  let num_pots = 5;
+
+  let pottybg;
+
+  function preload(){
+    pottybg = loadImage("heads/potty.png");
+
+
+    for (let i = 0; i < num_pots; i++) {
+    let head = loadImage("heads/head_" + i + ".png");
+      heads.push(head);
+
+    let eyes = loadImage("eyes/eyes_" + i + ".png");
+      eyes_arr.push(eyes);
+
+    let feet = loadImage("feet/feet_" + i + ".png");
+      feet_arr.push(feet);
+  }
+
+
+
+  
+}
+ 
+
+  function setup() { 
+    cnv = createCanvas(pottybg.width, pottybg.height, SVG);
+    image(pottybg, 0,0)
+    noStroke();
+
+
+      makepots();
+    
+  }
+
+
+
+
+
+  function draw(){
+
+
+
+  }
+
+  function makepots(){
+  background(random(255),random(255),random(255));
+
+   let r = floor(random(num_pots));
+   let h = new Head(width/2 - 100,200);
+   let e = new Eyes(width/2 - 80,250);
+   let f = new Feet(width/2 - 180,430);
+
+// get the random head here and shove it into display
+  let head = heads[r];
+  let eyes_index = eyes_arr[r];
+  let feet_index = feet_arr[r];
+  f.display(feet_index);
+   h.display(head);
+   e.display(eyes_index);
+   
+    // save();
+  } 
+
+  
+
+class Head {
+  
+
+  constructor(x,y){
+    this.pos = createVector(x,y);
+    this.color_r = random(255);
+    this.color_g = random(255);
+    this.color_b = random(255);
+    //this.head = heads[2];
+  }
+
+  display(head){
+    fill(this.color_r,this.color_g,this.color_b);
+    image(head, this.pos.x, this.pos.y);
+  }
+
+}
+
+class Eyes {
+
+constructor(x,y){
+  this.pos = createVector(x,y);
+  this.color_r = random(255);
+  this.color_g = random(255);
+  this.color_b = random(255);
+}
+
+display(eyes){
+  //fill(this.color_r,this.color_g,this.color_b);
+  //rect(this.pos.x,this.pos.y,width/2, 100);
+  image(eyes, this.pos.x, this.pos.y);
+}
+
+}
+
+class Feet {
+
+constructor(x,y){
+  this.pos = createVector(x,y);
+  this.color_r = random(255);
+  this.color_g = random(255);
+  this.color_b = random(255);
+}
+
+display(feet){
+  image(feet, this.pos.x, this.pos.y);
+}
+
+}
+
+
+  </script>
+</body>
+</html>

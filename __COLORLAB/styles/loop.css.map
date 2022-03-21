@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAKE,AAAA,cAAc,CAAH;EACT,UAAU,EALL,aAAa;CAMnB;;AAFD,AAAA,aAAa,CAAF;EACT,UAAU,EALS,YAAY;CAMhC;;AAFD,AAAA,SAAS,CAAE;EACT,UAAU,EALsB,QAAQ;CAMzC;;AAFD,AAAA,UAAU,CAAC;EACT,UAAU,EAL+B,SAAS;CAMnD",
+    "sources": [
+        "loop.scss"
+    ],
+    "names": [],
+    "file": "loop.css"
+}

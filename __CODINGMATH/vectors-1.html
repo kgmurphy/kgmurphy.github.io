@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="shortcut icon" href="">
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <link rel="stylesheet" href="../_STYLES/ui.css">
+    <script src="js/vectors.js"></script>
+    <style>
+
+
+body, html {
+    background-color: var(--background-color);
+}
+
+
+
+#body_wrap {
+        border: solid 1px black;
+        height: calc(100vh - 6rem);
+    }
+
+
+#logo {
+    line-height: 16px;
+    font-size: 16px;
+    text-transform: uppercase;
+    margin-left: 1.5rem;
+    margin-right: 0.5rem;
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/tweakpane@1.5.5/dist/tweakpane.min.js"></script>
+</head>
+<body>
+    <nav><img src="../_IMAGES/caoimhin_.png"  width="129" alt="Caoimh logo" id="logo"> --> Hello world
+    </nav>
+    <section id="body_wrap">
+
+        <p>Vectors are quantities that encapsulate two values: Magnitude and Direction. they have a tail and a head. Their direction is the angle made with the tail and a horizontal line. the magnitude is the length of the arrow.</p>
+
+        <canvas id="canvas">
+
+</canvas>
+</section>
+<script>
+var canvas      = document.getElementById("canvas"),
+    context     = canvas.getContext("2d"),
+    width       = canvas.width = window.innerWidth - 64,
+    height      = canvas.height = window.innerHeight - 96;
+    
+
+    context.fillStyle = "black";
+    context.fill();
+    context.translate(width/2, height/2);
+
+
+
+var v1 = vector.create(10,5),
+    v2 = vector.create(10,5);
+
+    context.moveTo(v1);
+
+
+</script>
+</body>
+</html>

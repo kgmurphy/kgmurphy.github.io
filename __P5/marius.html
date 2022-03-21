@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <script src="js/p5.min.js"></script>
+    <script src="https://unpkg.com/p5.js-svg@1.1.1"></script>
+    <style>
+      body, html {
+        background-color: black;
+      }
+        canvas {
+  display: block;
+}
+    </style>
+
+</head>
+<body>
+
+<script>
+let img;
+let cnv;
+let dot = 12;
+let dit = 60;
+
+function preload(){
+  img = loadImage('images/ravn.png');
+  
+}
+
+
+function setup() {
+  //ellipseMode(CENTER);
+  rectMode(CENTER);
+  cnv = createCanvas(img.width, img.height);
+    print(img.width, img.height);
+  let newCanvasX = (window.width - img.width)/2;
+  let newCanvasY = (window.height - img.height)/2;
+  cnv.position(newCanvasX,newCanvasY);
+  
+  for(let col = 0; col < img.width; col += dot){
+      for(let row = 0; row < img.height; row += dot){
+      let c = img.get(col,row);
+      fill(color(c));
+      noStroke();
+      //translate(col,row);
+      rect(col, row, 8, 2);
+      //translate(col,row);
+      rect(col, row, 2, 8);
+    
+      
+      //rect(col, row, dot,dot);
+      //fill(0);
+      //ellipse(col-0.5, row-0.5, dit,dit);
+      //ellipse(col, row, dit,dit);
+    }
+  }
+
+  //svg = createSVG();
+  //svg.beginRecord();
+
+  
+}
+
+//, SVG
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <script src="js/p5.min.js"></script>
+    <script src="https://unpkg.com/p5.js-svg@1.1.1"></script>
+
+<style>
+  canvas {
+    z-index: 1000;
+    position: absolute;
+    top: 0;
+  }
+</style>
+
+</head>
+<body>
+
+<script>
+
+
+
+let w;
+frameCount = 20;
+let wave1 = 1.2;
+let twist = 40;
+let step = 10;
+ 
+
+  function setup() { 
+    cnv = createCanvas(1000, 1000); 
+    colorMode(HSB, 360, 100,100); 
+    ellipseMode(CENTER);
+    background(0);
+
+    w = map(sin(radians(frameCount)), -1, 1, -100,random(100));
+twist = random(400);
+for(let i = 0; i < cnv.width; i+= step){
+  for(let j = 0; j < cnv.height; j+= step){
+    let xx = map(i, 0, cnv.width, -PI, PI);
+    let yy = map(j, 0, cnv.height, -PI, PI);
+    let d = sin(xx * wave1) * cos(yy * wave1);
+    let r = sqrt(xx * xx + yy * yy) * twist;
+    d += cos(xx * w) * cos(yy * w) * r;
+    let h = d * 100;
+    h = abs(h)/50;
+    let s = map(h, 0,100, 0, 100);
+    let b = map(h, 0,100, 0, 100);
+
+    //fill(g);
+    fill(h,s,b);
+    noStroke();
+    //rect(i,j,step,step);
+    step = random(10,15);
+    ellipse(i,j,step,step);
+        }
+    }
+  }
+
+
+
+  function draw(){
+
+
+
+  }
+
+ 
+
+
+
+
+  </script>
+</body>
+</html>

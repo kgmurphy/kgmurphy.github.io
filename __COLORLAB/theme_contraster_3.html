@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme contraster</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <link rel="stylesheet" href="../_STYLES/ui.css">
+    <style>
+        :root {
+            --hue-angle : 50;
+            --theme-sat : 50%;
+            --theme-lit : 50%;
+            --theme-bg : #ccc;
+
+            --sat : 50%;
+            --light : 50%;
+            --brand-lit : 0%;
+        }
+
+        #main {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .theme {
+            width: 33%;
+            height: 100vh;
+            padding: 2rem;
+            background-color: var(--theme-bg);
+            border: solid 1px #000;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .swatch {
+            width: 4rem;
+            height: 4rem;
+            background-color: hsl(var(--hue-angle),var(--sat),var(--light));
+            border-radius: 2rem;
+        }
+
+        .val {
+            background-color: #fff;
+            padding: 0.5rem;
+        }
+
+        .fg {
+            height: 2rem;
+            border-radius: 1rem;
+            background-color: hsl(var(--hue-angle),var(--brand-sat),var(--brand-lit));
+        }
+
+        #fg_hex {
+        background-color: #fff;
+        }
+
+        #result {
+            padding: 1rem;
+            background-color: beige;
+        }
+
+    </style>
+</head>
+<body>
+    <nav><span id="logo">CAOIMH --> Theme contraster</span></nav>
+    <button id="addTheme">Add theme</button>
+    <label for="brand_hue_slider">Hue</label>
+    <input type="range" min="0" max ="360" step="1" id="brand_hue_slider">
+    <span id="brand_hue_value">0</span>
+<section id="main">
+    
+</section>
+
+<script>
+    // Global vars
+    var r = document.querySelector(':root');
+    let main = document.getElementById('main');
+    let addTheme = document.getElementById('addTheme');
+    var mainHue;
+
+    // Stylesheet stuff
+    var sheets = document.styleSheets;
+    var sheet = document.styleSheets[0];
+    // david Walshes: ( https://davidwalsh.name/add-rules-stylesheets )
+    var sheet = (function() {
+	// Create the <style> tag
+	var style = document.createElement("style");
+	// WebKit hack :(
+	style.appendChild(document.createTextNode(""));
+	// Add the <style> element to the page
+	document.head.appendChild(style);
+
+	return style.sheet;
+})();
+/*
+The brand hue slider
+*/
+let brand_hue_slider = document.getElementById('brand_hue_slider');
+let brand_hue_value = document.getElementById('brand_hue_value');
+    brand_hue_slider.addEventListener('input', function(){
+        let val = brand_hue_slider.value;
+        brand_hue_value.innerHTML = val;
+        r.style.setProperty('--hue-angle',val);
+    });
+
+class Theme {
+    constructor(index){
+        this.index = index;
+    }
+
+        addWrapper(){
+
+            let themeWrapper = document.createElement('div');
+                themeWrapper.classList.add('theme');
+                themeWrapper.classList.add('themeWrapper_' + this.index);
+                const themeID = document.createAttribute('id');
+                themeID.value = `themeWrapper_` + this.index;
+                themeWrapper.setAttributeNode(themeID);
+                let thisindex = this.index;
+
+                // Add some css variables to the generated sheet
+                // sheet.insertRule('body,html { border: solid 12px black }', 0);
+                //sheet.insertRule('--swatch-sat_' + this.index + '{ 45%}', 0);
+                sheet.insertRule(':root { --ksat_' + thisindex + ': 0% }', 0);
+                sheet.insertRule(':root { --klight_' + thisindex + ': 0% }', 0);
+
+                
+
+                // Add a background color picker
+                let picker = document.createElement('input');
+                picker.classList.add('themeWrapper_' + this.index);
+                // Ty
+                const pickerID = document.createAttribute('id');
+                pickerID.value = `picker_` + this.index;
+                picker.setAttributeNode(pickerID);
+                // Input type = color
+                const inputType = document.createAttribute('type');
+                inputType.value = `color`;
+                picker.setAttributeNode(inputType);
+                // Initial color value
+                const initColor = document.createAttribute('value');
+                initColor.value = `#ffcc00`;
+                picker.setAttributeNode(initColor);
+
+                // Add event to picker
+                picker.addEventListener('input', function(){
+                    // Set the theme background-color
+                    themeWrapper.style.setProperty('background-color', picker.value);
+                });
+                
+
+               
+
+                // Add a swatch in here
+                let swatch = document.createElement('div');
+                    swatch.classList.add('swatch');
+                    swatch.classList.add('swatch_' + this.index);
+                    swatch.style.backgroundColor = 'hsl(var(--hue-angle), var(--ksat_' + this.index + '), var(--klight_' + this.index + '))';
+
+
+                // Add a saturation slider
+                const sliderType_0 = document.createAttribute('type');
+                sliderType_0.value = `range`;
+                const sliderType_1 = document.createAttribute('type');
+                sliderType_1.value = `range`;
+
+                let satSlider = document.createElement('input');
+                satSlider.setAttributeNode(sliderType_0);
+
+                // Initial  value
+                let satInitVal = document.createAttribute('value');
+                satInitVal.value = '0';
+                satSlider.setAttributeNode(satInitVal);
+
+                satSlider.addEventListener('input', function(){
+                    let satVal = satSlider.value;
+                    let ksat = '--ksat_' + thisindex;
+                    r.style.setProperty(ksat , satVal + "%");
+                    //swatch.style.backgroundColor = 'hsl(' + 'var(--hue-angle)' + ',' + ksat + ',' + klight + ')' ;
+                });
+
+
+                // Add a lightness slider
+                let lightSlider = document.createElement('input');
+                lightSlider.setAttributeNode(sliderType_1);
+                // Initial  value
+                let lightInitVal = document.createAttribute('value');
+                lightInitVal.value = `0`;
+                lightSlider.setAttributeNode(lightInitVal);
+
+                lightSlider.addEventListener('input', function(){
+                    let lightVal = lightSlider.value;
+                    let klight = '--klight_' + thisindex;
+                    r.style.setProperty(klight , lightVal + "%");
+                    //swatch.style.backgroundColor = 'hsl(' + 'var(--hue-angle)' + ',' + ksat + ',' + klight + ')' ;
+                });
+
+                
+  
+                
+        
+
+                // Assemble
+                themeWrapper.appendChild(picker);
+                themeWrapper.appendChild(swatch);
+                themeWrapper.appendChild(satSlider);
+                themeWrapper.appendChild(lightSlider);
+
+                main.appendChild(themeWrapper);
+                console.log(this);
+
+        
+    }
+}
+
+// Create a new theme
+let index = 0;
+addTheme.addEventListener('click', function(){
+
+    let theme = new Theme(index);
+        theme.addWrapper();
+
+    index += 1;
+    console.log(index);
+});
+</script>
+
+</body>
+</html>

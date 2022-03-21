@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <script src="js/p5.min.js"></script>
+    <script src="https://unpkg.com/p5.js-svg@1.1.1"></script>
+    <style>
+      html, body {
+        background-color: #222;
+      }
+        canvas {
+  display: block;
+}
+    </style>
+
+</head>
+<body>
+
+<script>
+let img;
+let cnv;
+let dot = 5;
+let dit = 3;
+let inc = 0;
+let sw = 2;
+let divver = dot;
+
+
+
+function preload(){
+  img = loadImage('images/seankin.png');
+  //img = loadImage('images/oslo_small.png');
+  //img = loadImage('images/moher.jpeg');
+ //img = loadImage('images/erland.jpg');
+  //img = loadImage('images/ravn.png');
+  
+}
+
+
+function setup() {
+  
+  //ellipseMode(CENTER);
+  //rectMode(CENTER);
+  cnv = createCanvas(img.width, img.height, SVG);
+  
+  for(let col = 0; col < img.width; col += dot){
+      for(let row = 0; row < img.height; row += dot){
+      
+      let c = img.get(col,row);
+      fill(color(c));
+      let b = brightness(c);
+
+      if(b < 33){
+        strokeWeight(sw);
+        //strokeWeight(0.5);
+        stroke(color(c));
+        
+        line(col,row,col + inc, row + inc);
+      }
+
+
+      else if(b < 63){
+        strokeWeight(sw);
+        //strokeWeight(0.5);
+        stroke(color(c));
+        //line(col,row,col, row + inc);
+        rect(col,row, b/divver,b/divver);
+      }
+
+      else{
+        strokeWeight(sw);
+        //strokeWeight(0.5);
+        //stroke(color(c));
+        stroke(100);
+        line(col + inc,row,col, row + inc);
+      }
+
+
+    }
+  }
+
+  //svg = createSVG();
+  //svg.beginRecord();
+  
+}
+
+
+//, SVG
+</script>
+</body>
+</html>

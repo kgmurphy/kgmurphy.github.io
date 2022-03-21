@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <script src="js/p5.min.js"></script>
+    <script src="https://unpkg.com/p5.js-svg@1.1.1"></script>
+    <style>
+        canvas {
+  display: block;
+}
+    </style>
+
+</head>
+<body>
+
+<script>
+let img;
+let cnv;
+let dot = 9;
+let dit = 3;
+let amt = 1;
+
+let bugs = [];
+let m;
+
+function preload(){
+  img = loadImage('images/kevin.png');
+  
+}
+
+
+function setup() {
+  rectMode(CENTER);
+  cnv = createCanvas(img.width, img.height);
+  for(let col = 0; col < img.width; col += dot){
+      for(let row = 0; row < img.height; row += dot){
+      let c = img.get(col,row);
+      fill(color(c));
+      noStroke();
+
+      rect(col, row, 8, 2);
+      rect(col, row, 2, 8);
+
+      m = new Mover(col,row, c);
+ 
+      bugs.push(m);
+
+     
+  }
+
+}
+
+
+function draw(){
+
+     
+      for(var i = 0; i < walkers.length; i++){
+        
+        walkers[i].display();
+        walkers[i].walk();
+      }
+
+    
+  
+}
+
+class Mover{
+
+    constructor(x,y, farge){
+    this.x = x;
+    this.y = y;
+    stroke(farge);
+    fill(farge);
+    }
+
+    walk(){
+        this.x += random(-1,1);
+        this.y += random(-1,1);
+    }
+
+    display(){
+        ellipse(this.x, this.y, 5,5);
+    }
+
+}
+}
+
+//, SVG
+</script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <script src="js/p5.min.js"></script>
+    <script src="https://unpkg.com/p5.js-svg@1.1.1"></script>
+    <style>
+      html, body {
+        background-color: rgb(1, 151, 131);
+      }
+        canvas {
+  display: block;
+}
+
+* {
+  font-weight: bold;
+  font-size: 2em;
+}
+    </style>
+
+</head>
+<body>
+
+<script>
+let img;
+let cnv;
+let dot = 8;
+let dit = 3;
+let inc = 10;
+let sw = 2;
+
+
+
+
+
+
+function preload(){
+ // img = loadImage('images/seankin.png');
+  img = loadImage('images/lichen2.png');
+  //img = loadImage('images/sean.jpeg');
+  //img = loadImage('images/eggs.png');
+  //img = loadImage('images/awkward.png');
+  
+}
+
+
+function setup() {
+  
+  //ellipseMode(CENTER);
+  //rectMode(CENTER);
+
+  cnv = createCanvas(img.width, img.height, SVG);
+
+
+  
+  for(let col = 0; col < img.width; col += dot){
+      for(let row = 0; row < img.height; row += dot - 3){
+      
+      let c = img.get(row,col);
+      //fill(color(c));
+      let b = brightness(c);
+
+        noStroke();
+
+        //color(b);
+
+        textSize(dot);
+        let t = int(c);
+        let c0 = c[0];
+        let c1 = c[1];
+        let c2 = c[2];
+
+        if(b<25){
+            fill(color(0));
+            //rect(row,col,dot,dot);
+            text('+', row, col);
+        } else if (b<50){
+            fill(color(200,0,200));
+            //ellipse(row,col,dot/2,dot/2);
+            text('+-', row, col);
+        } else if (b<70){
+            fill(color(200,200,0));
+            //ellipse(row,col,dot/2,dot/2);
+            text('+', row, col);
+        }else {
+            fill(color(255));
+            //ellipse(row,col,dot/2,dot/2);
+            text('+', row, col);
+        }
+        //text("[" + c0 + "," + c1 + "," + c2 + "]", col, row);
+        //ellipse(row, col, 5,5);
+        
+    }
+  }
+  
+}
+
+
+
+//, SVG
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <link rel="stylesheet" href="../_STYLES/ui.css">
+    <style>
+    :root {
+    --brand-hue : 160;
+    --brand-saturation: 100%;
+    --brand-lightness: 50%;
+}
+
+* {
+/*-- MAIN --*/
+    --brand-light : hsl(var(--brand-hue), var(--brand-saturation), var(--brand-lightness));
+/*-- TEXT --*/
+    --text1-light: hsl(var(--brand-hue) var(--brand-saturation) 10%);
+    --text2-light: hsl(var(--brand-hue) 30% 30%);   
+/*-- SURFACES --*/
+    --surface1-light: hsl(var(--brand-hue) 25% 90%);
+    --surface2-light: hsl(var(--brand-hue) 20% 99%);
+    --surface3-light: hsl(var(--brand-hue) 20% 92%);
+    --surface4-light: hsl(var(--brand-hue) 20% 85%);
+
+    /*-- UI --*/
+--background-color : hsl(var(--brand-hue), var(--brand-saturation), var(--brand-lightness));
+}
+
+
+
+body, html {
+    background-color: var(--background-color);
+}
+
+nav {
+    background-color: hsl(var(--brand-hue), var(--brand-saturation), calc(var(--brand-lightness) - 0%));
+}
+.bg {
+    padding: 1rem;
+    position: absolute;
+    border-radius: 50%;
+    display: block;
+}
+
+
+#logo {
+    line-height: 1rem;
+    font-size: 1em;
+}
+    </style>
+</head>
+<body>
+
+    <section>
+        <nav><span id="logo">CAOIMH - FIGMA LIVE EMBED </span></nav>
+
+
+
+        
+    </section>
+
+</body>
+</html>

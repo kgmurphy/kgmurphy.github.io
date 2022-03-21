@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme contraster</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <link rel="stylesheet" href="../_STYLES/ui.css">
+    <style>
+        :root {
+            --hue-angle : 0;
+            --theme-sat : 50%;
+            --theme-lit : 50%;
+            --theme-bg : #ccc;
+
+            --brand-sat : 0%;
+            --brand-lit : 0%;
+        }
+
+        .theme {
+            width: 33%;
+            height: 100vh;
+            padding: 2rem;
+            background-color: var(--theme-bg);
+        }
+
+        .val {
+            background-color: #fff;
+            padding: 0.5rem;
+        }
+
+        .fg {
+            height: 2rem;
+            border-radius: 1rem;
+            background-color: hsl(var(--hue-angle),var(--brand-sat),var(--brand-lit));
+        }
+
+        #fg_hex {
+        background-color: #fff;
+        }
+
+        #result {
+            padding: 1rem;
+            background-color: beige;
+        }
+
+    </style>
+</head>
+<body>
+    <nav><span id="logo">CAOIMH --> Theme contraster</span></nav>
+<section>
+    <label for="brand_hue_slider">Hue</label>
+    <input type="range" min="0" max ="360" step="1" id="brand_hue_slider" value="0">
+    <span id="brand_hue_value">0</span>
+</section>
+<section>
+    <div class="theme" id="theme_background">
+        <!-- theme background picker-->
+        <label for="theme_bg_picker">Sat</label>
+        <input type="color" id="theme_bg_picker">
+        <span id="theme_bg_value" class="val">0</span>
+        <!-- theme saturation slider-->
+        <label for="theme_sat_slider">Sat</label>
+        <input type="range" min="0" max ="100" step="1" value="0" id="theme_sat_slider">
+        <span id="theme_sat_value" class="val">0</span>
+        <!-- theme lightness slider-->
+        <label for="theme_lit_slider">Lit</label>
+        <input type="range" min="0" max ="100" step="1" value="0" id="theme_lit_slider">
+        <span id="theme_lit_value" class="val">0</span>
+
+        <div class="fg" id="fg">
+            <span id = "fg_hex"></span>
+        </div>
+        <div id="result"></div>
+    </div>
+</section>
+
+<script>
+
+/* Borrow functions */
+function hexToRgb(hex) {
+var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+    return r + r + g + g + b + b;
+});
+
+var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+} : null;
+}
+
+
+function getRGB(str){
+var match = str.match(/rgba?\((\d{1,3}), ?(\d{1,3}), ?(\d{1,3})\)?(?:, ?(\d(?:\.\d?))\))?/);
+return match ? {
+    red: match[1],
+    green: match[2],
+    blue: match[3]
+} : {};
+}
+
+
+function luminance(r, g, b) {
+var a = [r, g, b].map(function (v) {
+    v /= 255;
+    return v <= 0.03928
+        ? v / 12.92
+        : Math.pow( (v + 0.055) / 1.055, 2.4 );
+});
+return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+}
+
+
+function contrast(color1luminance,color2luminance){
+// calculate the color contrast ratio
+const ratio = color1luminance > color2luminance 
+  ? ((color2luminance + 0.05) / (color1luminance + 0.05))
+  : ((color1luminance + 0.05) / (color2luminance + 0.05));
+
+
+// show results depending on WCAG requirements
+const result = `
+                AA-level large text: ${ratio < 1/3 ? 'PASS' : 'FAIL' }<br>
+                AA-level small text: ${ratio < 1/4.5 ? 'PASS' : 'FAIL' }<br>
+                AAA-level large text: ${ratio < 1/4.5 ? 'PASS' : 'FAIL' }<br>
+                AAA-level small text: ${ratio < 1/7 ? 'PASS' : 'FAIL' }
+               `;
+document.querySelector("#result").innerHTML = result;
+  return ratio;
+}
+
+
+
+
+
+// Global vars
+var r = document.querySelector(':root');
+let fg = document.getElementById('fg');
+var bg_color;
+var theme_bg;
+var theme_fg;
+let fg_hex = document.getElementById('fg_hex');
+
+
+//
+/*
+The brand hue slider
+*/
+let theme_bg_picker = document.getElementById('theme_bg_picker');
+let theme_bg_value = document.getElementById('theme_bg_value');
+    theme_bg_picker.addEventListener('input', function(){
+        let val = theme_bg_picker.value;
+        // Global var to hold the theme bg
+        theme_bg = val;
+        theme_bg_value.innerHTML = val;
+        r.style.setProperty('--theme-bg',val);
+        let bg = find_bg();
+        let fg = find_fg();
+        contrast(bg,fg);
+    });
+
+/*
+/*
+The brand hue slider
+*/
+let brand_hue_slider = document.getElementById('brand_hue_slider');
+let brand_hue_value = document.getElementById('brand_hue_value');
+    brand_hue_slider.addEventListener('input', function(){
+        let val = brand_hue_slider.value;
+        brand_hue_value.innerHTML = val;
+        r.style.setProperty('--hue-angle',val);
+        let bg = find_bg();
+        let fg = find_fg();
+        contrast(bg,fg);
+    });
+
+/*
+Saturation of theme
+*/
+let theme_sat_slider = document.getElementById('theme_sat_slider');
+let theme_sat_value = document.getElementById('theme_sat_value');
+    theme_sat_slider.addEventListener('input', function(){
+        let val = theme_sat_slider.value;
+        theme_sat_value.innerHTML = val + '%';
+        r.style.setProperty('--brand-sat',val + '%');
+        let bg = find_bg();
+        let fg = find_fg();
+        contrast(bg,fg);
+    });
+/*
+Lightness of theme
+*/
+let theme_lit_slider = document.getElementById('theme_lit_slider');
+let theme_lit_value = document.getElementById('theme_lit_value');
+    theme_lit_slider.addEventListener('input', function(){
+        let val = theme_lit_slider.value;
+        theme_lit_value.innerHTML = val + '%';
+        r.style.setProperty('--brand-lit',val + '%');
+        let bg = find_bg();
+        let fg = find_fg();
+        contrast(bg,fg);
+    });
+    
+// Get the foreground color
+// Save it as global fg (foreground)
+
+let find_fg = function(){
+    let fg_style = window.getComputedStyle(fg);
+    let fg_color = fg_style.getPropertyValue('background-color');
+    // show the hex in the display
+    fg_hex.innerHTML = fg_color;
+    // get the rgb of the color
+    let fg_color_rgb = getRGB(fg_color);
+    let fg_color_r = fg_color_rgb.red;
+    let fg_color_g = fg_color_rgb.green;
+    let fg_color_b = fg_color_rgb.blue;
+    // get the luminosity of this value.
+    let fg_color_lum = luminance(fg_color_r, fg_color_g, fg_color_b );
+    //console.log("fg_color_lum:" , fg_color_lum);
+    console.log("FG Luminosity:" , fg_color_lum, '\n', "Red:" , fg_color_r, '\n' , "Green:" , fg_color_g, '\n', "Blue:" , fg_color_b);
+    return fg_color_lum;
+}
+
+let find_bg = function(){
+    let bg = document.getElementById('theme_background');
+    let bg_style = window.getComputedStyle(bg);
+    let bg_color = bg_style.getPropertyValue('background-color');
+    // get the rgb of the color
+    let bg_color_rgb = getRGB(bg_color);
+    let bg_color_r = bg_color_rgb.red;
+    let bg_color_g = bg_color_rgb.green;
+    let bg_color_b = bg_color_rgb.blue;
+    // get the luminosity of this value.
+    let bg_color_lum = luminance(bg_color_r, bg_color_g, bg_color_b );
+    //console.log("bg_color_lum:" , fg_color_lum);
+    console.log("BG Luminosity:" , bg_color_lum, '\n', "Red:" , bg_color_r, '\n' , "Green:" , bg_color_g, '\n', "Blue:" , bg_color_b);
+    return bg_color_lum;
+}
+
+
+
+// Call the color details before we start interacting:
+
+
+</script>
+
+</body>
+</html>

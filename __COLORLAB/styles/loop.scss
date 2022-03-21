@@ -1,0 +1,9 @@
+// colors
+$colors: darkslateblue mediumorchid seagreen steelblue;
+
+// loop!
+@each $color in $colors {
+  .#{$color} {
+    background: $color;
+  }
+}

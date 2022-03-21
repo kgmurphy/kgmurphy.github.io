@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <link rel="stylesheet" href="../_STYLES/ui.css">
+    <style>
+
+/* a few variables...*/
+        :root {
+        --color-background: #010101;
+        --color-alpha-light: 0.15;
+        --color-alpha-extralight: 0.15;
+        --color-vertical-lines: rgba(255, 255, 255, var(--color-alpha-extralight));
+        --color-horizontal-lines: rgba(255, 255, 255, var(--color-alpha-extralight));
+        --color-diagonal-lines: rgba(255, 255, 255, var(--color-alpha-light));
+        --line-thickness-1: 0.05rem;
+        --box-size: 8px;
+        --stop: 44px;
+        --start: 45px;
+        }
+
+        body , html {
+        background-color: #222;
+        background-image: linear-gradient(var(--color-vertical-lines) var(--line-thickness-1), transparent var(--line-thickness-1)), linear-gradient(90deg, var(--color-horizontal-lines) var(--line-thickness-1), transparent var(--line-thickness-1));
+        background-size: var(--box-size) var(--box-size), var(--box-size) var(--box-size), var(--box-size) var(--box-size), var(--box-size) var(--box-size);
+        background-position: 0 0, -0.5px 0, 0 0, 0 0;
+        }
+
+        section {
+            width: 100%;
+            height: 100vh;
+
+            display: flex;
+            flex-wrap: wrap;
+
+            justify-content: center;
+
+        }
+
+        .card{
+            min-width: 15rem;
+            max-width: 25%;
+            width: 18%;
+
+      
+            background-color: #333;
+            border-radius: 0.5rem;
+
+            display: flex;
+            flex-direction: column;
+            margin: 0.5%;
+            padding: 1rem;
+
+            box-shadow: 0px 3px 8px rgba(0,0,0,0.25);
+        }
+
+        .card h1 {
+            color: #666;
+            font-weight: 100;
+            text-transform: uppercase;
+        }
+        .card p {
+            color: #999;
+            font-weight: 100;
+
+        }
+
+        .card p.wideness {
+            color: aquamarine;
+        }
+        .card p.highness {
+            color:lightblue
+        }
+
+    </style>
+</head>
+<body>
+<section id="main">
+
+</section>
+</body>
+</html>
+
+
+
+
+<script>
+
+    let main = document.getElementById('main');
+
+    for(let i = 0; i < 5; i++){
+
+        let card = document.createElement('div');
+        let para1 = "If the property has a value different than none, a stacking context will be created. In that case, the element will act as a containing block for any position: fixed; or position: absolute; elements that it contains. ";
+        let para2 = "The element will act as a containing block for any position: fixed; or position: absolute; elements that it contains. ";
+        let para3 = "A containing block. ";
+
+        let p1 = document.createElement('p');
+        let p2 = document.createElement('p');
+        let p3 = document.createElement('p');
+        let h = document.createElement('h1');
+        let wideness = document.createElement('p');
+        let highness = document.createElement('p');
+
+        wideness.classList.add('wideness');
+        wideness.textContent = "↔ ___px";
+        highness.classList.add('highness');
+        highness.textContent = "↕ ___px";
+        card.classList.add('card');
+        p1.textContent = para1;
+        p2.textContent = para2;
+        p3.textContent = para3;
+        h.textContent = "This is the card header";
+
+        card.appendChild(h);
+        card.appendChild(wideness);
+        card.appendChild(highness);
+
+
+        if(i % 2){
+            card.appendChild(p1);
+        } else if (i % 3){
+            card.appendChild(p2);
+        } else {
+            card.appendChild(p3);
+        }
+        
+        main.appendChild(card);
+    }
+
+
+    // On window resize print the width of the card into the card
+
+function cardWidth() {
+    let cards = document.getElementsByClassName('card');
+    for(let i = 0; i < cards.length; i++){      
+        let widthDisplayer = cards[i].querySelector('.wideness');
+        let computedCardWidth = window.getComputedStyle(cards[i]);
+        let cardWidth = computedCardWidth.getPropertyValue('width');
+        widthDisplayer.innerHTML = "↔ " + cardWidth;
+
+        let heightDisplayer = cards[i].querySelector('.highness');
+        let computedCardHeight = window.getComputedStyle(cards[i]);
+        let cardHeight = computedCardHeight.getPropertyValue('height');
+        heightDisplayer.innerHTML = "↕ " + cardHeight;
+        
+    }
+}
+
+window.addEventListener('resize', cardWidth);
+    
+
+</script>

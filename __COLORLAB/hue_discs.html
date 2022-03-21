@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H --> Hue discs</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <link rel="stylesheet" href="../_STYLES/ui.css">
+    <style>
+    :root {
+    --brand-hue : 270;
+    --brand-saturation: 100%;
+    --brand-lightness: 50%;
+    --radius: 50%;
+    --body-margin: 2rem;
+    --height: calc(100vh/2 - var(--body-margin)*3);
+}
+
+* {
+/*-- MAIN --*/
+    --brand-light : hsl(var(--brand-hue), var(--brand-saturation), var(--brand-lightness));
+/*-- TEXT --*/
+    --text1-light: hsl(var(--brand-hue) var(--brand-saturation) 10%);
+    --text2-light: hsl(var(--brand-hue) 30% 30%);   
+/*-- SURFACES --*/
+    --surface1-light: hsl(var(--brand-hue) 25% 90%);
+    --surface2-light: hsl(var(--brand-hue) 20% 99%);
+    --surface3-light: hsl(var(--brand-hue) 20% 92%);
+    --surface4-light: hsl(var(--brand-hue) 20% 85%);
+
+    /*-- UI --*/
+--background-color : hsl(calc(var(--brand-hue) + 360), var(--brand-saturation), var(--brand-lightness));
+}
+
+
+
+
+
+body, html {
+/*  
+background: linear-gradient(-90deg, rgba(0,0,0,.025) 1px, transparent 1px), linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px), linear-gradient(-90deg, rgba(0, 0, 0, .04) 1px, transparent 1px), linear-gradient(rgba(0,0,0,.04) 1px, transparent 1px), linear-gradient(transparent 4px, #fff 4px, #fff 61px, transparent 61px), linear-gradient(-90deg, rgba(0,0,0,0.15) 1px, transparent 1px), linear-gradient(-90deg, transparent 4px, #fff 4px, #fff 61px, transparent 61px), linear-gradient(rgba(0,0,0,0.15) 1px, transparent 1px),#fff;
+background-size: auto, auto, auto, auto, auto, auto, auto, auto, auto;
+background-size: 8px 8px, 8px 8px, 64px 64px, 64px 64px, 64px 64px, 64px 64px, 64px 64px, 64px 64px;
+*/
+background-color: var(--background-color);
+
+}
+
+nav {
+    background-color: hsl(var(--brand-hue), var(--brand-saturation), calc(var(--brand-lightness) - 0%));
+}
+.bg {
+    padding: 0.5rem;
+    position: absolute;
+    border-radius: var(--radius);
+    display: block;
+    color: rgba(0,0,0,0.5);
+    overflow: hidden;
+    max-width: 48px;
+}
+
+#body_wrap {
+    width: calc(100% - var(--body-margin) * 2);
+    height: calc(100vh - var(--body-margin) * 3.0);
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    border: solid 1px black;
+ 
+}
+
+#color_section {
+    width: var(--height);
+    height: var(--height);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.disc {
+    display: flex;
+    flex: 1;
+    position: absolute;
+    opacity: 1;
+    border-radius: 50%;;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.45);
+    transition: all ease 1s;
+    transition-property: border-radius, transform;
+    transition-duration: 1s, 1s;
+}
+
+.trans {
+    transition: border-radius 1s;
+}
+
+
+#logo {
+    line-height: 1rem;
+    font-size: 1em;
+}
+
+#bigtext {
+    z-index: 1000;
+    color: white;
+    font-weight: bold;
+    font-size: 8em;
+    opacity: 0.85;
+    text-align: center;
+    line-height: 6rem;
+}
+
+/**--Background grid--**/
+
+
+body {
+  background-color: #111213;
+}
+
+/* a few variables...*/
+:root {
+  --color-background: #010101;
+  --color-alpha-light: 0.25;
+  --color-alpha-extralight: 0.25;
+  --color-vertical-lines: rgba(255, 255, 255, var(--color-alpha-extralight));
+  --color-horizontal-lines: rgba(255, 255, 255, var(--color-alpha-extralight));
+  --color-diagonal-lines: rgba(255, 255, 255, var(--color-alpha-light));
+  --line-thickness-1: 1px;
+  --box-size: 8px;
+}
+
+body {
+    background-image: linear-gradient(
+      rgba(255, 0, 255, 0.25) 
+      1px, transparent 
+      1px), linear-gradient(90deg, 
+      rgba(255, 0, 255, 0.25) 
+      1px, transparent 
+      1px);
+  background-size: 
+  8px 
+  8px, 
+  8px 
+  8px, 
+  8px 
+  8px, 
+  8px 
+  8px;
+  background-position: 0 0, -0.5px 0, 0 0, 0 0;
+}
+    </style>
+</head>
+<body>
+    <nav><span id="logo">CAOIMH --> Hue discs</span></nav>
+    <section id="body_wrap">
+    <section id="color_section">
+       
+    </section>
+</section>
+
+<script>
+var r = document.documentElement;
+var steps = 10;
+var xoff= 40;
+var yoff= 40;
+var offset = 40;
+var raddiv = 1.25;
+var color_section = document.getElementById('color_section');
+var radmin = 24;
+var radmax = 75;
+
+function random(min, max){
+    return Math.floor(min + Math.random() * (max - min));
+}
+
+function remain(n){
+    return 100 - n;
+}
+
+var rotation = 0;
+function huediscs(){
+    rotation += 40;
+    for (var i = 0; i < steps; i++){
+// the radii
+        var r1 = random(radmin, radmax);
+        var r2 = random(radmin, radmax);
+        var r3 = random(radmin, radmax);
+        var r4 = random(radmin, radmax);
+
+        var r11 = remain(r1);
+        var r22 = remain(r2);
+        var r33 = remain(r3);
+        var r44 = remain(r4);
+
+        var coordinates = `${r1}% ${r11}% ${r22}% ${r2}% / ${r3}% ${r4}% ${r44}% ${r33}%`;
+
+
+        let color_disc = document.createElement('div');
+
+        color_disc.style.width = i * 10 + "%";
+        color_disc.style.height = i * 10 + "%";
+        //color_disc.style.marginTop = i * -10 + "%";
+        let randy = Math.random(340, 360) * 100; 
+        //color_disc.style.backgroundColor = "#ffcc00";
+        color_disc.style.backgroundColor = "hsl(var(--brand-hue) , calc(var(--brand-saturation) - " + i + "%), calc(var(--brand-lightness) - " + i * i/6+ "%)";
+      
+        //color_disc.style.backgroundColor = "hsl(calc(var(--brand-hue) + " + i * randy +") , calc(var(--brand-saturation) - " + i + "%), calc(var(--brand-lightness) - " + i + "%)";
+        //color_disc.style.backgroundColor = "hsl(var(--brand-hue) , calc(var(--brand-saturation) + " + i + "%), calc(var(--brand-lightness) - " + i + "%)";
+        color_disc.style.zIndex = steps-i;
+        color_disc.classList.add('disc');
+        color_disc.style['border-radius'] = coordinates;
+        color_disc.style['transform'] = 'rotate(' + rotation + 'deg)'
+        color_disc.classList.add('.trans');
+        color_section.appendChild(color_disc);
+    }
+}
+
+huediscs();
+
+document.addEventListener('click', function(){
+    color_section.innerHTML = '';
+    huediscs();
+});
+
+
+
+
+
+
+
+function colorbox()
+{
+    for(var i = 0; i < steps; i++)
+{
+    for(var j = 0; j < steps; j++)  
+{
+        
+        //logo.style.color = "hsl(calc(var(--brand-hue) * 1), calc(var(--brand-saturation) * 1), calc(var(--brand-lightness) * -2)";
+        let color_box = document.createElement('div'); 
+        let compStyles = window.getComputedStyle(color_box);
+        let amt = 360/steps;
+        color_box.classList.add('bg');
+        //r.style.setProperty('--brand-hue', i+j);
+        //color_box.style.backgroundColor = "hsl(calc(var(--brand-hue) + " + amt * i +") , calc(var(--brand-saturation) - " + i + "%), calc(var(--brand-lightness) - " + j + "%)";
+      
+        color_box.style.backgroundColor = "hsl(var(--brand-hue) , calc(var(--brand-saturation) - " + i + "%), calc(var(--brand-lightness) - " + j + "%)";
+        color_box.style.marginTop = i * xoff + "px";
+        color_box.style.marginLeft = j * yoff + "px";
+        color_section.appendChild(color_box);
+        //color_section.style.height = steps * offset + "%";
+        //color_box.textContent = compStyles.getPropertyValue('background-color');
+        color_box.textContent = "__";
+        /*
+        color_box.style.borderBottomLeftRadius = i/raddiv + "px";
+        color_box.style.borderTopLeftRadius = i/raddiv + "px";
+        color_box.style.borderBottomRightRadius = i/raddiv + "px";
+        color_box.style.borderTopRightRadius = i/raddiv + "px";
+*/
+        
+
+
+
+}
+}
+}
+
+
+//colorbox();
+</script>
+</body>
+</html>

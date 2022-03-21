@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KSIMULATE.ME</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+
+    <link rel="stylesheet" href="styles/modal.css">
+
+
+    <script src="js/modal.js"></script>
+    <script src="js/html2canvas.js"></script>
+
+
+    <style>
+        /*-- ROOT --*/
+            :root {
+            --unit: 1rem;
+            --bgcolor: #ce4c23;
+            }
+        
+        /*-- UI --*/
+            body,html {
+            background-color: #2B313B;
+            }
+        
+            #global_wrapper {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            padding: calc(var(--unit) * 4);
+            height: 100vh;
+            }
+        
+            #controls_wrapper,
+            #ksim_wrapper {
+                width: 50%;
+            }
+        
+            #controls_wrapper {
+            background-color: #444;
+            }
+        
+            #ksim_wrapper {
+            background-color: var(--bgcolor);
+            width: 680px;
+            height: 680px;
+            position: relative;
+            }
+        </style>
+        <style>
+            :root {
+            --haircolor: #000;
+            }
+        /*-- HAIR --*/
+            .hair_line, 
+            .hair_path, 
+            .hair_rect {
+            fill: var(--haircolor);
+            stroke : var(--haircolor);
+            }
+        
+            .hair {
+            visibility: hidden;
+            }
+        
+            #hair_wrapper {
+            position: relative;
+            z-index: 2500;
+            }
+            #hair_wrapper svg {
+            position: absolute;
+            top:0;
+            }
+        
+            #haircolors_wrapper {
+            padding: var(--unit);
+            display: flex;
+            flex-direction: row;
+            }
+
+        
+            .hair_swatch {
+            width: 2rem;
+            height: 2rem;
+            }
+            .hair_swatch:hover {
+            cursor: pointer;
+            }
+        
+        </style>
+        <style>
+        /*-- ACCESSORIES--*/
+            .accessory {
+            visibility: hidden;
+            }
+
+            #accessory_wrapper {
+            z-index: 3;
+            }
+        
+            #accessory_wrapper #glasses_wrapper,
+            #accessory_wrapper #jewelry_wrapper {
+            position: relative;
+            z-index: 3;
+            }
+
+
+            #glasses_wrapper svg {
+            position: absolute;
+            top:0;
+            }
+        
+            .glasses {
+            visibility: hidden;
+            }
+        
+            .jewelry {
+            visibility: hidden;
+            }
+        
+            #jewelry_wrapper svg {
+            position: absolute;
+            top:0;
+            }
+        
+        </style>
+        <style>
+            /*-- BODY --*/
+            :root {
+            --bodycolor: #ffcc00;
+            }
+            svg {
+            stroke-width: 0px;
+            fill: pink;
+            }
+            .shade {
+            filter: brightness(80%);
+            fill: var(--bodycolor);
+            }
+            .front_shade {
+            filter: brightness(90%);
+            fill: var(--bodycolor);
+            }
+            .side_shade {
+            filter: brightness(50%);
+            fill: var(--bodycolor);
+            }
+            .body {
+                visibility: hidden; 
+            }
+            #body_wrapper {
+            position: absolute;
+            z-index: 0;
+            height: 100%;
+            }
+            #body_wrapper svg {
+            position: absolute;
+            top:0;
+            }
+
+            #bodycolors_wrapper {
+            padding: var(--unit);
+            display: flex;
+            flex-direction: row;
+            }
+
+            .body_swatch {
+            width: 2rem;
+            height: 2rem;
+            }
+
+            .body_line, 
+            .body_path, 
+            .body_rect {
+            fill: var(--bodycolor);
+            stroke : var(--bodycolor);
+            }
+        </style>
+        <style>
+            #shades_wrapper {
+            position: absolute;
+            z-index: 50;
+            height: 100%;
+            }
+            #shades_wrapper svg {
+            position: absolute;
+            top:0;
+            }
+        </style>
+
+
+</head>
+<body>
+
+
+<div id="global_wrapper">
+
+
+<!-- CONTROLS -->
+<div id="controls_wrapper">
+
+<!-- BODY CONTROLS -->
+    <h2>BODY</h2>
+    <h3>Body form and posture</h3>
+    <div id="body_chooser">
+    <label for="bodystyle_0_radio">M-type-standing
+    <input type="radio" id ="bodystyle_0_radio" name="body_radio" value="M-type-standing"></label>
+    <label for="bodystyle_2_radio">F-type standing
+    <input type="radio" id ="bodystyle_1_radio" name="body_radio" value="M-type-standing"></label>
+    <!--<label for="bodystyle_2_radio">M-type-sitting
+    <input type="radio" id ="bodystyle_2_radio" name="body_radio" value="M-type-sitting"  disabled></label>-->
+    <!--<label for="bodystyle_3_radio">F-type sitting
+    <input type="radio" id ="bodystyle_3_radio" name="body_radio" value="F-type-sitting" disabled></label>-->
+    </div>
+    <div id="bodycolors_wrapper"></div>
+<!-- / BODY CONTROLS -->
+
+<!-- HAIR CONTROLS -->
+    <h2>HAIR</h2>
+    <div id="haircolors_wrapper"></div>
+    <div id ="hairstyle_chooser">
+        <label for="hairstyle_0_radio">hair style 0
+        <input type="radio" id ="hairstyle_0_radio" name="hair_radio"></label>
+        <label for="hairstyle_1_radio">hair style 1
+        <input type="radio" id ="hairstyle_1_radio" name="hair_radio"></label>
+        <label for="hairstyle_2_radio">hair style 2
+        <input type="radio" id ="hairstyle_2_radio" name="hair_radio"></label>
+        <label for="hairstyle_3_radio">hair style 3
+        <input type="radio" id ="hairstyle_3_radio" name="hair_radio"></label>
+        <label for="hairstyle_4_radio">hair style 4
+        <input type="radio" id ="hairstyle_4_radio" name="hair_radio"></label>
+        <label for="hairstyle_5_radio">No hair
+        <input type="radio" id ="hairstyle_5_radio" name="hair_radio"></label>
+    </div>
+<!-- / HAIR CONTROLS -->
+
+<!-- ACCESSORIES CONTROLS-->
+<div>
+    <h2>ACCESSORIES</h2>
+        <h3>Glasses</h3>
+        <div id="glasses_chooser">
+        <label for="glassesstyle_0_radio">Buddy Holly
+        <input type="radio" id ="glassesstyle_0_radio" name="glasses_radio" value="Buddy"""></label>
+        <label for="glassesstyle_1_radio">Catsy Mc Gatsby
+        <input type="radio" id ="glassesstyle_1_radio" name="glasses_radio" value="Rayban"></label>
+        <label for="glassesstyle_2_radio">Ray Ban
+        <input type="radio" id ="glassesstyle_2_radio" name="glasses_radio" value="Gatsby"></label>
+        </div>
+
+        <h3>Jewlery</h3>
+        <div id="jewelry_chooser">
+        <label for="jewelrystyle_0_radio">Notorious O.G
+        <input type="radio" id ="jewelrystyle_0_radio" name="jewelry_radio" value="Notorious"""></label>
+        <label for="jewelrystyle_1_radio">Bling Bling
+        <input type="radio" id ="jewelrystyle_1_radio" name="jewelry_radio" value="Bling"></label>
+        <label for="jewelrystyle_2_radio">Jus Cool, y'nuh?
+        <input type="radio" id ="jewelrystyle_2_radio" name="jewelry_radio" value="Cool"></label>
+        </div>
+</div>
+<!-- / ACCESSORIES CONTROLS-->
+<!-- BG COLOR WRAPPER -->
+<h2>BACKGROUND COLOR</h2>
+<div id="bg_wrapper">
+    <input type="color" id="bg_colorwell" >
+</div>
+    <!-- / BG COLOR WRAPPER -->  
+
+<!-- EXPORTS-->
+<h2>EXPORT</h2>
+<button id="saver" data-modal-trigger aria-controls="modal-name" aria-expanded="false">Export as .png</button>
+<!-- / EXPORTS-->
+
+
+</div>
+<!-- / CONTROLS -->
+
+<div id ="ksim_wrapper">
+<!-- HAIR WRAPPER -->
+<div id="hair_wrapper">
+
+
+
+    <svg width="680" height="680" viewBox="0 0 680 680" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M339.512 155.341L339.512 139.432L413.091 97.6704L427.013 89.7159L427.013 108.608C422.04 108.608 415.08 101.648 413.091 97.6704C391.163 135.652 344.958 153.007 339.512 155.341Z" fill="#141517"/>
+        <path d="M339.515 139.434L254.004 89.7178C254.004 89.7178 244.06 101.648 244.06 123.525C244.06 141.273 254.004 145.398 254.004 166.278C254.004 187.159 244.06 201.08 244.06 201.08L329.572 250.795C329.572 250.795 339.515 236.875 339.515 215.994C339.515 195.114 329.572 197.948 329.572 180.199C329.572 172.257 339.515 155.341 339.515 155.341L339.515 139.434Z" fill="black"/>
+        <path d="M254 89.7159L339.512 40L427.012 89.7159L339.512 139.432L254 89.7159Z" fill="#1C1E21"/>
+    </svg>
+
+
+    <svg width="176" height="192" viewBox="0 0 176 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 50L86 0L174 50L86.0001 100L0 50Z" fill="#64563F"/>
+        <path d="M174.003 50L86.0032 100L86.0032 112L174.003 62L174.003 50Z" fill="#4B402F"/>
+        <path d="M86 100L9.77516e-06 50L0 150C26 166 28 122 35 112C46.354 95.78 60 117 86 112V100Z" fill="url(#paint0_linear_13_665)"/>
+        <defs>
+        <linearGradient id="paint0_linear_13_665" x1="43" y1="104" x2="17" y2="160" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#3E3628"/>
+        <stop offset="1" stop-color="#3E3628" stop-opacity="0.4"/>
+        </linearGradient>
+        </defs>
+        </svg>
+    <svg width="180" height="195" viewBox="0 0 180 195" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 53L89 3L177 53L89.0001 103L3 53Z" fill="#1C1E21" stroke="#1C1E21" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
+        <path d="M89 103L3.00001 53L3 151L32 168C49 153 31 125 38 115C49.354 98.78 71 119 89 103Z" fill="black" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 6"/>
+        </svg>
+    <svg width="186" height="211" viewBox="0 0 186 211" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M95.512 115.341L95.512 99.4318L169.092 57.6705L183.013 49.7159L183.013 68.608C178.04 68.608 171.08 61.6477 169.092 57.6705C147.163 95.6517 100.959 113.008 95.512 115.341Z" fill="#141517"/>
+        <path d="M95.5151 99.4337L10.0038 49.7178C10.0038 49.7178 0.0604702 61.6478 0.0606128 83.5246C0.0607285 101.273 10.0038 105.398 10.0038 126.278C10.0038 147.159 0.0606128 161.08 0.0606128 161.08L85.572 210.795C85.572 210.795 95.5151 196.875 95.5151 175.994C95.5151 155.114 85.5721 157.948 85.572 140.199C85.5719 132.257 95.5151 115.341 95.5151 115.341L95.5151 99.4337Z" fill="black"/>
+        <path d="M10.0002 49.7159L95.5116 0L183.012 49.7159L95.5116 99.4318L10.0002 49.7159Z" fill="#1C1E21"/>
+        </svg>
+    <svg width="176" height="192" viewBox="0 0 176 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 50L86 0L143 31C129 39 93.9998 19 69 34C44.0001 49 75 68 74 93L0 50Z" fill="#E9EAEC"/>
+        <path d="M74 93L9.73682e-06 50L0 150L38 172C36 155 7 114 38 107C46.4767 105.086 70 111 74 93Z" fill="#D3D5DA"/>
+        <line x1="86.6812" y1="67.2777" x2="128.415" y2="43.5653" stroke="#E9EAEC"/>
+        <line x1="79.753" y1="63.2777" x2="121.487" y2="39.5653" stroke="#E9EAEC"/>
+        </svg>
+    <svg width="176" height="225" viewBox="0 0 176 225" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M174 49.6961L86 100.164L86.0018 142.496L104 132.174L104 104.164L109.25 129.164L174.002 92.0286L174 49.6961Z" fill="#322B20"/>
+        <path d="M0 50.1636L15 41.1636L102 91.1636L86 100.164L0 50.1636Z" fill="#383124"/>
+        <path d="M15 41.1636L86.2384 0L174.161 50.0964L102 91.1636L15 41.1636Z" fill="#3E3628"/>
+        <path d="M9.73682e-06 50.1636L86 100.164V224.164L0 174.164L9.73682e-06 50.1636Z" fill="#262018"/>
+        <path d="M153 161.954L174 174.164V150.164L153 161.954Z" fill="#262018"/>
+        </svg>
+</div>
+<!-- / HAIR WRAPPER -->  
+
+<!-- SHADES WRAPPER -->
+<div id ="shades_wrapper">
+<!--
+    <svg width="680" height="680" viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg">
+    <path d="M253.003 89.8087L339 139.807L339 239.803L253.003 189.805L253.003 89.8087Z" fill="pink"/>
+    <path d="M426.997 89.8087L339.003 139.809L339.003 239.805L426.997 189.805L426.997 89.8087Z" fill="pink"/>
+    <path d="M277.002 259.802L277.502 274.802L286.002 270.302L302.002 279.302V424.296L303.001 425.796L311.001 429.796L315.001 281.802L277.002 259.802Z" fill="black"/>
+    <path d="M291.002 285.302L275.002 276.302L277.002 422.297L291.002 430.045V285.302Z" fill="black"/>
+    <path d="M344 410.797L356 403.797V604.79L344 598.29V410.797Z" fill="black"/>
+    <path d="M380.999 179.805V153.806L392.998 185.805L380.999 179.805Z" fill="black"/>
+    <path d="M314.501 628.789L302.502 622.289L300.002 467.295L305.002 468.295L306.002 464.795L299.002 461.795L297.002 455.295L299.002 448.296L303.002 450.795L306.002 450.295V431.796L303.002 425.796L311.001 429.796L314.501 628.789Z" fill="black"/>
+    <path d="M291.002 429.796L277.003 422.297L273.003 451.796L287.002 459.795L291.002 429.796Z" fill="pink"/>
+    <path d="M287.003 459.795L273.003 451.795L279.003 458.295L293.003 466.295L287.003 459.795Z" fill="pink"/>
+    <path d="M301.002 439.796L299.002 448.296L303.002 450.796L301.002 439.796Z" fill="black"/>
+    <path d="M338 648.288L295.502 623.789V632.789L307.002 639.789L321.501 651.288L338 660.788V648.288Z" fill="red"/>
+    <path d="M381.999 623.478L339 598.79V609.79L353 614.29L368.999 628.289L381.999 635.789V623.478Z" fill="red"/>
+    <path d="M360.5 635.789L338 648.289V660.789L360.5 647.789V635.789Z" fill="red"/>
+    <path d="M404.499 610.79L381.999 623.29V635.79L404.499 622.79V610.79Z" fill="red"/>
+    <path d="M329.501 620.289L314.501 628.789L311.001 430.296L315.001 281.802L397.998 233.803L375.999 391.798L370.999 596.29L356 604.79V403.797L333.001 416.797L329.501 620.289Z" fill="red"/>
+    <path d="M302.002 279.302L291.002 285.302V429.796L302.002 424.296V279.302Z" fill="red"/>
+    <path d="M339 257.803C351.15 257.803 360.999 252.206 360.999 245.303V227.304L339 239.803L317.001 226.804V245.303C317.001 252.206 326.85 257.803 339 257.803Z" fill="url(#paint0_linear_42_753)"/>
+    <defs>
+    <linearGradient id="paint0_linear_42_753" x1="317.001" y1="236.803" x2="360.499" y2="236.803" gradientUnits="userSpaceOnUse">
+    <stop/>
+    <stop offset="1" stop-opacity="0"/>
+    </linearGradient>
+    </defs>
+    </svg>
+-->
+<svg width="680" height="680" viewBox="0 0 680 680" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M426.997 89.8087L339.003 139.809L339.003 239.805L426.997 189.805L426.997 89.8087Z" fill="black"/>
+    <path d="M380.999 179.805V153.806L392.998 185.805L380.999 179.805Z" fill="black"/>
+    <path d="M360.5 635.789L338 648.289V660.789L360.5 647.789V635.789Z" fill="black"/>
+    <path d="M404.499 610.79L381.999 623.29V635.79L404.499 622.79V610.79Z" fill="black"/>
+    <path d="M329.5 620.289L314.501 628.789L311.001 430.296L315.001 281.802L397.998 233.803L375.999 391.798L370.999 596.29L355.999 604.79V403.797L333 416.797L329.5 620.289Z" fill="black"/>
+    <path d="M302.002 279.302L291.002 285.302V429.796L302.002 424.296V279.302Z" fill="black"/>
+    <path d="M339 257.803C351.15 257.803 360.999 252.206 360.999 245.303V227.304L339 239.803L317.001 226.804V245.303C317.001 252.206 326.85 257.803 339 257.803Z" fill="url(#paint0_linear_42_753)"/>
+    <defs>
+    <linearGradient id="paint0_linear_42_753" x1="317.001" y1="236.803" x2="360.499" y2="236.803" gradientUnits="userSpaceOnUse">
+    <stop/>
+    <stop offset="1" stop-opacity="0"/>
+    </linearGradient>
+    </defs>
+    </svg>
+    <svg width="680" height="680" viewBox="0 0 680 680" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M381.999 623.478L339 598.79V609.79L353 614.29L368.999 628.289L381.999 635.789V623.478Z" fill="black"/>
+    <path d="M277.002 259.802L277.502 274.802L286.002 270.302L302.002 279.302V424.296L303 426L311 430L315.001 281.802L277.002 259.802Z" fill="black"/>
+    <path d="M291.002 285.302L275.002 276.302L277 422L291.002 430V285.302Z" fill="black"/>
+    <path d="M344 410.797L356 403.797V604.79L344 598.29V410.797Z" fill="black"/>
+    <path d="M314.501 628.789L302.502 622.289L300.002 467.295L305.002 468.295L306.002 464.795L299.002 461.795L297.002 455.295L299.002 448.296L303.002 450.795L306.002 450.295V431.796L303.002 426L311.001 430L314.501 628.789Z" fill="black"/>
+    <path d="M291 430L277 422L273.003 452L287.002 460L291 430Z" fill="black"/>
+    <path d="M338 648.288L295.502 623.789V632.789L307.002 639.789L321.501 651.288L338 660.788V648.288Z" fill="black"/>
+    <path d="M253.003 89.8087L339 139.807L339 239.803L253.003 189.805L253.003 89.8087Z" fill="black"/>
+    <path d="M287.003 460L273.003 452L279.003 458L293.003 466.295L287.003 460Z" fill="black"/>
+    <path d="M301.002 439.796L299.002 448.296L303.002 450.796L301.002 439.796Z" fill="black"/>
+    </svg>
+</div>
+<!-- / SHADES WRAPPER -->
+
+<!-- ACCESSORIES WRAPPER -->
+<div id="accessory_wrapper">
+<!-- GLASSES WRAPPER -->
+    <div id="glasses_wrapper">
+        <svg width="200" height="600" viewBox="0 0 200 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.8">
+        <path d="M101.247 144.518C100.98 142.174 102.521 139.03 104.674 137.537C109.519 134.176 116.958 129.124 121.974 126.228C126.68 123.511 132.95 120.556 137.31 118.587C139.555 117.574 141.085 119.15 140.625 121.996L138.229 136.82C137.896 138.881 136.592 141.048 134.971 142.222C131.09 145.031 124.634 149.585 119.921 152.306C115.407 154.912 109.617 157.498 105.941 159.057C104.227 159.784 102.894 158.971 102.679 157.087L101.247 144.518Z" stroke="#151E29" stroke-width="1.97456"/>
+        <path d="M190.315 93.088C190.582 90.435 189.041 89.0717 186.888 90.0642C182.043 92.2975 174.604 95.8365 169.588 98.7329C164.882 101.45 158.612 105.736 154.253 108.802C152.008 110.38 150.477 113.725 150.937 116.039L153.332 128.097C153.665 129.773 154.968 130.435 156.59 129.736C160.471 128.064 166.927 125.162 171.639 122.441C176.154 119.835 181.944 115.733 185.62 113.048C187.334 111.795 188.667 109.443 188.882 107.311L190.315 93.088Z" stroke="#151E29" stroke-width="1.97456"/>
+        <path d="M145.781 117.249C143.318 118.671 141.95 118.822 140.856 119.134L140.855 123.932C142.087 122.901 143.729 121.313 145.781 120.128C148.244 118.706 150.022 118.319 151.117 118.007L151.117 113.209C149.886 114.24 147.833 116.065 145.781 117.249Z" fill="#151E29"/>
+        <path d="M103.128 147.556L103.128 138.453C90.5139 131.776 71.9872 121.838 58.1908 114.782C52.1969 111.717 46.3653 112.506 44.0003 113.416L45.5771 115.237C47.4165 114.63 53.776 115.419 58.1909 117.968C62.6057 120.517 70.8049 127.224 74.7468 131.169L103.128 147.556Z" fill="#151E29"/>
+        </g>
+            </svg>
+        <svg width="200" height="600" viewBox="0 0 200 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.8">
+        <path d="M180.741 92.0099C180.733 94.3316 180.528 98.1302 179.543 102.382C178.558 106.636 176.827 111.203 173.842 115.212C164.667 127.53 151.948 134.282 144.645 130.956C142.865 130.145 141.765 127.939 141.11 125.312C140.461 122.707 140.287 119.837 140.254 117.941C140.241 117.205 140.612 116.355 141.202 115.754C143.888 113.017 149.965 107.269 159.367 100.826C168.04 94.8828 175.95 92.056 179.533 90.9773C180.267 90.7562 180.743 91.1833 180.741 92.0099Z" stroke="black" stroke-width="2.76071"/>
+        <path d="M94.3488 141.892C94.3562 144.205 94.5614 147.767 95.5457 150.882C96.5306 153.999 98.2614 156.567 101.247 157.128C110.421 158.851 123.14 150.915 130.443 139.155C132.223 136.29 133.324 132.813 133.979 129.43C134.628 126.075 134.802 123.003 134.836 121.07C134.849 120.318 134.477 119.897 133.887 119.977C131.201 120.342 125.124 121.611 115.723 126.026C107.05 130.098 99.1402 136.405 95.5571 139.464C94.8225 140.091 94.3462 141.068 94.3488 141.892Z" stroke="black" stroke-width="2.76071"/>
+        <path d="M134.795 124.466C134.795 123.439 135.329 121.078 137.462 119.846C139.596 118.614 140.13 120.359 140.13 121.386" stroke="black" stroke-width="1.84047"/>
+        </g>
+            </svg>
+        <svg width="200" height="600" viewBox="0 0 200 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.8">
+        <path d="M107.73 130.33C118.132 123.841 133.859 115.032 135.292 120.107C140.741 139.393 114.13 163.517 108.727 164.866C100.611 166.892 98.6018 155.975 98.2783 147.057C98.0582 140.988 102.365 133.678 107.73 130.33Z" fill="url(#paint0_linear_15_1022)" stroke="#D1CDC7" stroke-width="1.65637"/>
+        <path d="M172.392 92.9948C161.99 98.5174 146.264 107.869 144.829 114.6C139.379 140.179 165.99 133.573 171.393 128.683C179.509 121.337 181.519 108.099 181.843 98.8066C182.064 92.484 177.758 90.1462 172.392 92.9948Z" fill="url(#paint1_linear_15_1022)" stroke="#D1CDC7" stroke-width="1.65637"/>
+        </g>
+        <defs>
+        <linearGradient id="paint0_linear_15_1022" x1="117.674" y1="124.376" x2="132.09" y2="153.353" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#433E37" stop-opacity="0.8"/>
+        <stop offset="1" stop-color="#70685C" stop-opacity="0.5"/>
+        </linearGradient>
+        <linearGradient id="paint1_linear_15_1022" x1="162.448" y1="98.5237" x2="179.04" y2="123.767" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#433E37" stop-opacity="0.8"/>
+        <stop offset="1" stop-color="#70685C" stop-opacity="0.5"/>
+        </linearGradient>
+        </defs>
+            </svg>
+    </div>
+<!-- / GLASSES WRAPPER -->
+<!-- JEWELRY WRAPPER -->
+    <div id="jewelry_wrapper">
+        <svg width="200" height="600" viewBox="0 0 200 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.8">
+        <path d="M77.4832 209.39C70.4913 210.089 53.3612 218.829 70.1417 231.415C91.1174 247.146 101.605 244 109.995 272.317C118.386 300.634 136.215 277.561 138.313 268.122C140.41 258.683 155.093 238.756 143.557 213.585C141.809 210.789 134.537 203.517 123.63 201" stroke="#F5A623" stroke-width="2.09757" stroke-linejoin="round" stroke-dasharray="2.1 2.1"/>
+        </g>
+        </svg>
+        <svg width="241" height="600" viewBox="0 0 241 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.8">
+        <path d="M77.0241 209C66.9908 209 54.4206 227.4 71.2012 239.986C92.1768 255.717 111.538 245.12 124.689 253.681C149.44 269.795 187.299 270.478 189.396 261.039C191.494 251.6 156.153 247.327 144.616 222.156C142.868 219.36 135.596 212.088 124.689 209.571" stroke="#FFB539" stroke-width="2.09757" stroke-linejoin="round" stroke-dasharray="2.1 2.1"/>
+        <path d="M229.71 282.247C218.857 286.339 202.785 283.695 193.815 276.341C188.8 272.231 187.065 267.519 188.407 263.447L189.932 258.096L191.936 258.559L238.663 269.362L239.696 269.601L238.84 273.161C238.775 273.539 238.685 273.914 238.57 274.283C237.551 277.551 234.563 280.417 229.71 282.247Z" fill="#D48F1E"/>
+        <ellipse rx="21.0029" ry="21.0029" transform="matrix(0.773377 0.633946 -0.935702 0.352791 214.59 264.373)" fill="#F5A623"/>
+        <path d="M212.807 279.126L213.61 249.293C217.066 249.592 220.531 250.304 223.777 251.391L223.777 279.352C220.248 279.77 216.498 279.679 212.807 279.126Z" fill="#FFB539"/>
+        <g filter="url(#filter0_i_15_1022)">
+        <path d="M222.564 270.301C221.452 270.835 220.271 271.228 219.022 271.479C217.773 271.72 216.528 271.833 215.286 271.816L214.913 270.827C214.878 270.739 214.886 270.647 214.936 270.549C214.986 270.452 215.07 270.369 215.188 270.301C215.348 270.209 215.61 270.151 215.973 270.127C216.336 270.103 216.771 270.067 217.278 270.02C217.776 269.967 218.324 269.88 218.924 269.759C219.531 269.634 220.155 269.425 220.795 269.134L214.511 264.966C213.744 265.204 212.963 265.424 212.171 265.627C211.378 265.821 210.576 265.946 209.765 266.003C208.954 266.05 208.139 265.997 207.318 265.845C206.498 265.682 205.677 265.363 204.854 264.889C204.236 264.532 203.752 264.116 203.402 263.642C203.053 263.159 202.877 262.653 202.874 262.127C202.879 261.595 203.075 261.052 203.46 260.496C203.837 259.936 204.446 259.393 205.288 258.868L203.584 257.738C203.439 257.636 203.358 257.516 203.341 257.379C203.323 257.243 203.407 257.121 203.592 257.014L204.426 256.533L206.766 258.088C207.761 257.642 208.751 257.334 209.739 257.165C210.726 256.996 211.718 256.908 212.715 256.9L213.011 257.698C213.097 257.942 213.031 258.127 212.812 258.254C212.694 258.322 212.496 258.377 212.217 258.421C211.939 258.454 211.61 258.503 211.23 258.565C210.841 258.623 210.419 258.705 209.964 258.812C209.5 258.913 209.032 259.066 208.56 259.27L214.297 263.063C215.09 262.821 215.891 262.593 216.701 262.38C217.511 262.167 218.325 262.025 219.144 261.953C219.963 261.882 220.779 261.915 221.591 262.053C222.402 262.182 223.198 262.471 223.978 262.921C224.741 263.362 225.331 263.848 225.748 264.381C226.165 264.913 226.384 265.467 226.404 266.043C226.432 266.613 226.254 267.196 225.869 267.79C225.484 268.375 224.866 268.942 224.016 269.491L226.102 270.871C226.247 270.974 226.319 271.093 226.32 271.23C226.338 271.366 226.258 271.486 226.081 271.588L225.248 272.069L222.564 270.301ZM222.2 264.359C221.776 264.114 221.331 263.95 220.866 263.866C220.409 263.778 219.936 263.747 219.446 263.776C218.956 263.804 218.45 263.876 217.927 263.992C217.404 264.108 216.868 264.246 216.32 264.406L222.223 268.31C222.719 267.965 223.084 267.617 223.319 267.266C223.553 266.905 223.665 266.557 223.655 266.22C223.653 265.879 223.529 265.554 223.282 265.246C223.035 264.929 222.674 264.633 222.2 264.359ZM206.747 263.532C207.154 263.767 207.582 263.931 208.03 264.024C208.47 264.113 208.931 264.15 209.412 264.137C209.893 264.123 210.387 264.068 210.894 263.971C211.4 263.875 211.919 263.751 212.45 263.601L207.095 260.072C206.598 260.417 206.233 260.755 205.998 261.087C205.772 261.413 205.655 261.725 205.649 262.022C205.65 262.315 205.749 262.591 205.945 262.85C206.132 263.104 206.4 263.331 206.747 263.532Z" fill="#D48F1E"/>
+        </g>
+        </g>
+        <defs>
+        <filter id="filter0_i_15_1022" x="202.874" y="256.533" width="23.5327" height="16.0715" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+        <feOffset dy="0.535107"/>
+        <feGaussianBlur stdDeviation="0.535107"/>
+        <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+        <feBlend mode="normal" in2="shape" result="effect1_innerShadow_15_1022"/>
+        </filter>
+        </defs>
+        </svg>
+        <svg width="200" height="600" viewBox="0 0 200 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.8">
+        <path d="M77.4832 209.39C70.4913 210.089 53.3612 218.829 70.1417 231.415C91.1174 247.146 101.605 244 109.995 272.317C118.386 300.634 136.215 277.561 138.313 268.122C140.41 258.683 155.093 238.756 143.557 213.585C141.809 210.789 134.537 203.517 123.63 201" stroke="#C7CAD0" stroke-width="2.09757" stroke-linejoin="round" stroke-dasharray="2.1 2.1"/>
+        </g>
+        </svg>      
+    </div>
+<!-- / JEWELRY WRAPPER -->
+
+</div>
+<!-- / ACCESSORIES WRAPPER -->
+
+ 
+
+<!-- BODY WRAPPER -->
+<div id="body_wrapper">
+    <svg width="680" height="680" viewBox="0 0 680 680" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M307 640L321.27 651.23L338.28 661.05V648.69L295.27 623.85V633L307 640Z" fill="#F0C8B9"/>
+        <path d="M339 598.85V610L353 614.33L357 617L369 628.54L382.01 636.05V623.69L339 598.85Z" fill="#F0C8B9"/>
+        <path d="M427 190V90L339 40L253 90V190L317 227.21V236.91L277 260L277.13 260.08L277.6 274.88L275 276.29L277 422.29L273 452L279 458.46L293 466.59L299.78 467.59L302.4 619.74L295.27 623.85L327 642.17L332.64 645.43L338.28 648.68V661.05L360.54 648.19V635.83L354.77 632.5L349 629.17L329.71 618L333 417.14L343.83 410.81V596.06L339 598.85L370.73 617.17L376.37 620.43L382.01 623.68V636.05L404.28 623.19V610.83L398.5 607.5L392.73 604.17L371.17 591.72L376 392L398 234.14V234L397.87 234.07L373.87 220.2L427 190ZM299 462L297 455.54L298.79 448.54L299.46 448.92L299.69 462.3L299 462ZM355.81 589.18V404L355.62 403.9L355.81 403.78V589.18Z" fill="#F0C8B9"/>
+        </svg>
+        
+        <svg width="680" height="680" viewBox="0 0 680 680" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M307 640L321.27 651.23L338.28 661.05V648.69L295.27 623.85V633L307 640Z" fill="#F0C8B9"/>
+            <path d="M339 598.85V610L353 614.33L357 617L369 628.54L382.01 636.05V623.69L339 598.85Z" fill="#F0C8B9"/>
+            <path d="M427 190V90L339 40L253 90V190L317 227.21V236.91L277 260L277.13 260.08L277.6 274.88L275 276.29L277 422.29L273 452L279 458.46L293 466.59L299.78 467.59L302.4 619.74L295.27 623.85L327 642.17L332.64 645.43L338.28 648.68V661.05L360.54 648.19V635.83L354.77 632.5L349 629.17L329.71 618L333 417.14L343.83 410.81V596.06L339 598.85L370.73 617.17L376.37 620.43L382.01 623.68V636.05L404.28 623.19V610.83L398.5 607.5L392.73 604.17L371.17 591.72L376 392L398 234.14V234L397.87 234.07L373.87 220.2L427 190ZM299 462L297 455.54L298.79 448.54L299.46 448.92L299.69 462.3L299 462ZM355.81 589.18V404L355.62 403.9L355.81 403.78V589.18Z" fill="#F0C8B9"/>
+        </svg>
+</div>
+<!-- / BDDY WRAPPER -->  
+
+
+<!-- / KSIM WRAPPER -->
+</div>
+
+<!-- MODAL-->
+<section class="modal" id="modal-name" data-modal-target>
+    <div class="modal__overlay" data-modal-close tabindex="-1"></div>
+    <div class="modal__wrapper">
+      <div class="modal__header">
+        <div class="modal__title">
+          Right click and save
+        </div>
+        <button class="modal__close" data-modal-close aria-label="Close Modal"></button>
+      </div>
+      <div id="img_out-full"></div>
+      <div id="img_out-cropped"></div>
+      <div id="img_out-thumb" style="width: 255%;"></div>
+    </div>
+  </section>
+<!-- / MODAL-->
+
+<script>
+// GLOBALS
+    var r               = document.querySelector(':root');
+    // Containers for holding the exported png's
+    let imgout_full     = document.getElementById('img_out-full');
+    let imgout_cropped  = document.getElementById('img_out-cropped');
+    let imgout_thumb    = document.getElementById('img_out-thumb');
+    let ksim_wrapper = document.getElementById('ksim_wrapper');
+</script>
+<script src="js/bodies.js"></script>
+<script src="js/hair.js"></script>
+<script src="js/accessories.js"></script>
+<!--<script src="js/shades.js"></script>-->
+
+<script>
+    window.addEventListener("load", startup, false);
+
+    function startup() {
+    bg_colorwell = document.querySelector("#bg_colorwell");
+    bg_colorwell.addEventListener("input", function(){
+        console.log(bg_colorwell.value);
+        r.style.setProperty('--bgcolor', bg_colorwell.value);
+    }, false);
+    
+}
+
+</script>
+
+<script>
+// Save the whole thing as PNG's
+saver.addEventListener('click', function(){   
+    // make the full body      
+    html2canvas(ksim_wrapper).then(function(canvas) { 
+        imgout_full.innerHTML = "";                          
+        imgout_full.appendChild(canvas);
+    });
+    // make the avatar
+    html2canvas(ksim_wrapper, {scale: 1.5, height: 336}).then(function(canvas) {
+        imgout_cropped.innerHTML = "";
+        imgout_cropped.appendChild(canvas);
+    });
+        // make the thumbnail
+        html2canvas(ksim_wrapper, {scale: 0.25}).then(function(canvas) {
+        imgout_thumb.innerHTML = "";
+        imgout_thumb.appendChild(canvas);
+    });
+});
+</script>
+</body>
+</html>

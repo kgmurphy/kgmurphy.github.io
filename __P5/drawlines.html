@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <script src="js/p5.min.js"></script>
+    <script src="https://unpkg.com/p5.js-svg@1.1.1"></script>
+    <style>
+      html, body {
+        background-color: #fff;
+      }
+        canvas {
+  display: block;
+}
+    </style>
+
+</head>
+<body>
+
+<script>
+let img;
+let cnv;
+let dot = 20;
+let dit = 3;
+let inc = 19;
+let sw = 0.5;
+
+
+
+function preload(){
+ img = loadImage('images/me.png');
+  //img = loadImage('images/oslo_small.png');
+  //img = loadImage('images/erland.jpg');
+  //img = loadImage('images/oslo.jpg');
+  
+}
+
+
+function setup() {
+  
+  ellipseMode(CENTER);
+  rectMode(CENTER);
+  cnv = createCanvas(img.width, img.height, SVG);
+  
+  for(let col = 0; col < img.width; col += dot){
+      for(let row = 0; row < img.height; row += dot){
+      
+      let c = img.get(col,row);
+      fill(255);
+      let b = brightness(c);
+      let lino = map(b, 0, 255, 10, 10);
+
+      if(b < 50){
+        strokeWeight(lino);
+        stroke(c);
+
+        line(col,row,col + inc, row + inc);
+
+      }
+
+      else{
+        strokeWeight(lino);
+        stroke(c);
+        line(col + inc,row,col, row + inc);
+      }
+      //ellipse(col, row, sw, sw);
+    }
+  }
+
+
+  
+}
+
+
+//, SVG
+</script>
+</body>
+</html>

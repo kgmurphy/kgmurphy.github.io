@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <link rel="stylesheet" href="../_STYLES/ui.css">
+    <style>
+
+
+body, html {
+    background-color: var(--background-color);
+}
+
+nav {
+    background-color: hsl(var(--brand-hue), var(--brand-saturation), calc(var(--brand-lightness) - 0%));
+}
+
+#body_wrap {
+        border: solid 1px black;
+        height: calc(100vh - 6rem);
+    }
+
+.bg {
+    padding: 1rem;
+    position: absolute;
+    border-radius: 50%;
+    display: block;
+}
+
+
+#logo {
+    line-height: 1rem;
+    font-size: 1em;
+    text-transform: uppercase;
+}
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/tweakpane@1.5.5/dist/tweakpane.min.js"></script>
+</head>
+<body>
+    <nav><span id="logo">CAOIMH --> Noisey patterns</span></nav>
+    <section id="body_wrap">
+<canvas id="canvas"></canvas>
+</section>
+<script>
+var canvas      = document.getElementById("canvas"),
+    context     = canvas.getContext("2d"),
+    width       = canvas.width = window.innerWidth - 64,
+    height      = canvas.height = window.innerHeight - 96;
+    
+    const a     = 3.0;
+    const b     = 3.0;
+    const h     = 0.05;
+    const orbit = 250;
+    let scale   = 30;
+    let res     = 10;
+
+    let x       = -10;
+    let y       = -40;
+    let xx      = x / scale;
+    let yy      = y /scale;
+
+    context.fillStyle = "black";
+    context.fill();
+    context.translate(width/2, height/2);
+
+    function render(){
+        for (let x = -width / 2; x < width / 2; x += res) {
+        for (let y = -height / 2; y < height / 2; y += res) {
+        let xx = x / scale;
+        let yy = y / scale;
+        res += 0.009;
+ 
+      for (let i = 0; i < orbit; i++) {
+        context.fillRect(xx * scale, yy * scale, 1, 1);
+        const x1 = xx - h * Math.sin(yy + Math.tan(a * yy)) ;
+        const y1 = yy - h * Math.cos(xx + Math.tan(b * xx)) ;
+        xx = x1;
+        yy = y1;
+
+
+      }
+    }
+  }
+}
+
+render();
+
+const PARAMS = {
+  scale : 10,
+  res : 10,
+};
+
+const pane = new Tweakpane({
+  title: 'NOISEY PATTERNS',
+});
+
+
+
+pane.addInput(PARAMS, 'scale', {
+  step: 4,min: 10,max: 640,
+}).on('change', (value) => {
+  scale = value;
+  context.translate(0, 0);
+  context.clearRect(-width/2, -height/2, width, height);
+  render();
+});
+
+pane.addInput(PARAMS, 'res', {
+  step: 1,min: 10,max: 40,
+}).on('change', (value) => {
+  res = value;
+  context.translate(0, 0);
+  context.clearRect(-width/2, -height/2, width, height);
+  render();
+});
+
+</script>
+</body>
+</html>

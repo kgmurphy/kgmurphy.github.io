@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <link rel="stylesheet" href="../_STYLES/ui.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/tweakpane@1.5.5/dist/tweakpane.min.js"></script>
+</head>
+<body>
+
+<script>
+
+
+const PARAMS = {
+  scale : 10,
+  res : 10,
+};
+
+const pane = new Tweakpane({
+  title: 'NOISEY PATTERNS',
+});
+
+
+
+pane.addInput(PARAMS, 'scale', {
+  step: 4,min: 10,max: 640,
+}).on('change', (value) => {
+  scale = value;
+  context.translate(0, 0);
+  context.clearRect(-width/2, -height/2, width, height);
+  render();
+});
+
+pane.addInput(PARAMS, 'res', {
+  step: 1,min: 10,max: 40,
+}).on('change', (value) => {
+  res = value;
+  context.translate(0, 0);
+  context.clearRect(-width/2, -height/2, width, height);
+  render();
+});
+
+</script>
+</body>
+</html>

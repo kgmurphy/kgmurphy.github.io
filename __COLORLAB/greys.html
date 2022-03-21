@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H --> Greys generator</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <link rel="stylesheet" href="../_STYLES/ui.css">
+
+
+    <style>
+     
+    #body_wrap {
+        border: solid 1px black;
+        min-height: calc(100vh - 6rem);
+        padding: 2rem;
+    }
+
+    #color_picker {
+        border: 0;
+        padding: 0;
+        width: 2rem;
+        height: 2rem;;
+    }
+
+    #shades {
+        margin-top: 0.75rem;
+        height: 100%;
+
+    }
+
+    #testbox {
+    }
+
+
+    .colorbox {
+        position: absolute;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        margin-right: 1px;
+    }
+
+
+    </style>
+</head>
+<body>
+<nav><span id="logo">CAOIMH --> Greys generator</span></nav>
+<section id="body_wrap">
+  
+    <section id="color_section">  
+        <div id="testbox">Testing</div>
+        <input type="color" id="color_picker" name="color_picker" value="#ffffff">
+        <input type="number" id="shades_amt" value="10">
+        <button id="shade_butt">GENERATE SHADES</button>
+        <p id="rgb_value">rgb</p>
+        <div id="shades"></div>
+    </section>
+</section>
+
+<script>
+// UI sytling
+
+let bg_1;
+let bg_2;
+// objects
+
+var r            = document.documentElement;
+let shades       = document.getElementById('shades');
+let nav          = document.getElementsByTagName('nav');
+let color_picker = document.getElementById('color_picker');
+let shade_butt   = document.getElementById('shade_butt');
+let shades_amt   = document.getElementById('shades_amt');
+let testbox   = document.getElementById('testbox');
+
+// variable to hold the chosen color
+
+let col;
+let hslcol;
+var hsl_h;
+var hsl_s;
+var hsl_l;
+
+let rgb = document.getElementById('rgb_value');
+
+// offsets
+
+let offset      = 32;
+let xoff        = offset;
+let yoff        = offset;
+
+// Arrays
+
+// Array to hold h s l
+hsl_array = [];
+
+// Get the default color from the color picker
+
+let initcolor = color_picker.value;
+
+// Remove the hash
+
+if (initcolor.slice(0,1) === '#'){
+    initcolor = initcolor.slice(1);
+}
+
+// Convert it to HSL
+let inithsl = hexToHSL(initcolor);
+// Set hslcol to be the initial color from the picker
+hslcol = inithsl;
+
+// Color picker events
+
+color_picker.addEventListener('input', function(){
+    col = this.value;
+    r.style.backgroundColor = col;
+    if (col.slice(0, 1) === '#') {
+            col = col.slice(1);
+        }
+        hslcol = hexToHSL(col);  
+       
+});
+
+color_picker.addEventListener('change', function(){
+    col = this.value;
+    //r.style.backgroundColor = col;
+    if (col.slice(0, 1) === '#') {
+            col = col.slice(1);
+        }
+        hslcol = hexToHSL(col);
+        
+});
+
+
+
+
+function hexToHSL(H) {
+ // Convert hex to RGB first
+ let r = "0x" + H[0] + H[1];
+ let g = "0x" + H[2] + H[3];
+ let b = "0x" + H[4] + H[5];
+
+// Then to HSL
+r /= 255;
+g /= 255;
+b /= 255;
+let cmin = Math.min(r,g,b),
+      cmax = Math.max(r,g,b),
+      delta = cmax - cmin,
+      h = 0,
+      s = 0,
+      l = 0;
+
+if (delta == 0)
+    h = 0;
+else if (cmax == r)
+    h = ((g - b) / delta) % 6;
+else if (cmax == g)
+    h = (b - r) / delta + 2;
+else
+    h = (r - g) / delta + 4;
+
+h = Math.round(h * 60);
+
+if (h < 0)
+    h += 360;
+
+l = (cmax + cmin) / 2;
+s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+s = +(s * 100).toFixed(1);
+l = +(l * 100).toFixed(1);
+
+hsl_h = h;
+hsl_s = s;
+hsl_l = l;
+
+// Empty the array
+hsl_array = [];
+// Fill the array each time
+    hsl_array.push(hsl_h);
+    hsl_array.push(hsl_s);
+    hsl_array.push(hsl_l);
+
+    
+  return "hsl(" + h + "," + s + "%," + l + "%)";
+
+}
+
+// Get the amount of shades 
+let amt = shades_amt.value;
+shades_amt.addEventListener('input', function(){
+    amt = this.value;
+});
+
+
+// Generate the color boxes
+function colorboxes(){
+    //let colorrow = document.createElement('div');
+    //colorrow.classList.add('colorrow');
+    
+    //shades.appendChild(colorrow);
+    for(var i = 0; i < amt; i++){    
+        for(var j = 0; j < amt; j++){
+        var arr_h = hsl_array[0];
+        var arr_s = hsl_array[1];
+        var arr_l = hsl_array[2];
+
+        //console.log("arr_s:" , arr_s);
+        let s_frac = arr_s % 1;
+        let l_frac = arr_l % 1;
+
+
+        
+        var colorbox = document.createElement('div');
+        colorbox.classList.add('colorbox');
+        let divver = 100/amt;
+        let bgcolor = "hsl(" + arr_h + "," + (i*divver + s_frac) + "%" + "," +  (j*divver + l_frac) + "%" + ")";  
+        
+        console.log(bgcolor);
+        colorbox.style.backgroundColor = bgcolor;
+
+        colorbox.style.marginTop = i * xoff + "px";
+        //colorbox.style.marginLeft = i * yoff + "px";
+        colorbox.style.marginLeft = j * yoff + "px";
+
+        shades.appendChild(colorbox); 
+        } 
+       
+    }
+    
+}
+
+
+
+shade_butt.addEventListener('click', function(){
+    shades.innerHTML = '';
+    colorboxes();
+    shades.style.height = amt * 2 + 'rem';
+});
+
+
+
+
+
+// Listen to all clicks on the document
+document.addEventListener('click', function (event) {
+
+	// If the event target doesn't match bail
+	if (!event.target.classList.contains('colorbox')) return;
+
+    var mystyle = window.getComputedStyle(event.target);
+            var myhsl = mystyle.getPropertyValue('background-color');
+            rgb_value.textContent = myhsl;
+            r.style.backgroundColor = myhsl;
+            console.log("myshl:" , myhsl);
+
+
+}, false)
+
+</script>
+
+</body>
+</html>

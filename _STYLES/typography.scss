@@ -1,0 +1,14 @@
+/*-- Typography --*/
+
+@font-face {
+    font-family: "Jetbrains";
+    src: url("../_FONTS/Jetbrains/ttf/JetBrainsMono-Light.ttf");
+    src: url("../_FONTS/Jetbrains/ttf/JetBrainsMono-Light.ttf?#iefix")
+        format("embedded-opentype"),
+      url("../_FONTS/Jetbrains/ttf/JetBrainsMono-Light.ttf") format("truetype"),
+      url("../_FONTS/Jetbrains/ttf/JetBrainsMono-Light.ttf") format("ttf");
+  }
+
+* {
+    font-family: Jetbrains;
+}

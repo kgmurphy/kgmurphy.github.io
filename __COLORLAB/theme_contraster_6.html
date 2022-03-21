@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <link rel="stylesheet" href="../_STYLES/ui.css">
+    <style>
+        :root {
+        --sw-h : 50;
+        --sw-s : 100%;
+        --sw-l : 0%;
+        }
+
+        #main {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .theme {
+            border: solid 1px #333;
+            min-width: 320px;
+            height: 50vh;
+            background-color: #333;
+            border-radius: 1rem;
+            margin: 0.125rem;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .swatch {
+
+            background-color: #bebebe;
+            height: 120px;
+            width: 120px;
+        }
+
+        input {
+            display: block;
+        }
+
+        p { 
+            color: hsl(var(--sw-h),var(--sw-s),var(--sw-l));
+        }
+    </style>
+</head>
+<body>
+    <button id="addTheme">Add theme</button>
+    <label for="brand_hue_slider">Hue</label>
+    <input type="range" min="0" max ="360" step="1" id="brand_hue_slider">
+    <section id="main"></section>
+    <div id = "result"></div>
+</body>
+</html>
+
+
+
+
+<script>
+// Global vars
+    var r = document.querySelector(':root');
+// The section containing each theme
+    let main = document.getElementById('main');
+// The stylesheet
+    let theSheet = document.styleSheets[0];
+
+
+
+
+    /* Borrowed functions */
+    function hexToRgb(hex) {
+        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+            return r + r + g + g + b + b;
+        });
+
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+
+    function getRGB(str){
+        var match = str.match(/rgba?\((\d{1,3}), ?(\d{1,3}), ?(\d{1,3})\)?(?:, ?(\d(?:\.\d?))\))?/);
+        return match ? {
+            r: match[1],
+            g: match[2],
+            b: match[3]
+        } : {};
+    }
+
+
+    function luminance(r, g, b) {
+        var a = [r, g, b].map(function (v) {
+            v /= 255;
+            return v <= 0.03928
+                ? v / 12.92
+                : Math.pow( (v + 0.055) / 1.055, 2.4 );
+        });
+
+        return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+    }
+
+
+    function contrastThis(color1luminance,color2luminance){
+        // calculate the color contrast ratio
+        const ratio = color1luminance > color2luminance 
+        ? ((color2luminance + 0.05) / (color1luminance + 0.05))
+        : ((color1luminance + 0.05) / (color2luminance + 0.05));
+
+
+        // show results depending on WCAG requirements
+        const result = `
+                        AA-level large text: ${ratio < 1/3 ? 'PASS' : 'FAIL' }<br>
+                        AA-level small text: ${ratio < 1/4.5 ? 'PASS' : 'FAIL' }<br>
+                        AAA-level large text: ${ratio < 1/4.5 ? 'PASS' : 'FAIL' }<br>
+                        AAA-level small text: ${ratio < 1/7 ? 'PASS' : 'FAIL' }
+                    `;
+
+                    //thisResultHolder.innerHTML = result;
+                    //console.log(result);
+        return result;
+    }
+
+/*
+The brand hue slider
+*/
+let brand_hue_slider = document.getElementById('brand_hue_slider');
+let brand_hue_value = document.getElementById('brand_hue_value');
+    brand_hue_slider.addEventListener('input', function(){
+        let val = brand_hue_slider.value;
+        r.style.setProperty('--sw-h',val);
+    });
+
+// Theme maker
+class Theme {
+    constructor(index, themeWrapper, swatch, bgPicker, satSlider, lightSlider, WCAGresults){
+        this.index = index;
+        this.themeWrapper = themeWrapper;
+        this.swatch = swatch;
+        this.bgPicker = bgPicker;
+        this.satSlider = satSlider;
+        this.lightSlider = lightSlider; 
+        this.WCAGresults = WCAGresults;  
+    }
+
+// Add a wrapper
+
+       
+    addWrapper(){ 
+            this.themeWrapper = document.createElement('div');      
+            this.themeWrapper.classList.add('theme');
+            this.themeWrapper.classList.add('themeWrapper_' + this.index);
+            const themeID = document.createAttribute('id');
+            themeID.value = `themeWrapper_` + this.index;
+            this.themeWrapper.setAttributeNode(themeID);
+            let thisindex = this.index;
+            main.appendChild(this.themeWrapper);  
+    }
+
+    addWCAGresults(){
+// Give it a unique class (probably not needed):
+        
+        //this.WCAGresults.classList.add('results_' + this.index);
+        
+// Give it a unique id:
+        this.WCAGresults = document.createElement('div');
+        let id = document.createAttribute('id');
+        id.value = 'results_' + this.index;
+        this.WCAGresults.setAttributeNode(id);
+        this.WCAGresults.innerHTML = "AA-level large text: <br>AA-level small text:<br>AAA-level large text<br>AAA-level small text:";
+
+        this.themeWrapper.appendChild(this.WCAGresults);
+    }
+
+    addSwatch(){
+            this.swatch = document.createElement('div');            
+            this.swatch.classList.add('swatch');
+            this.swatch.classList.add('swatch_' + this.index);
+            this.themeWrapper.appendChild(this.swatch); 
+            
+// Also add some css variables for thgis swatch
+            theSheet.insertRule(":root { --sw-s_" + this.index + ": 100%; }", 1);
+            theSheet.insertRule(":root { --sw-l_" + this.index + ": 0%; }", 1);
+// Set the bg color
+            this.swatch.style.backgroundColor = 
+            'hsl(var(--sw-h),' + 'var(--sw-s_' + this.index + '),'  + 'var(--sw-l_' + this.index + '))';
+// Set the text color
+           // theSheet.insertRule('p { color:  hsl(var(--sw-h),' + 'var(--sw-s_' + this.index + '),'  + 'var(--sw-l_' + this.index + '))}', 1);
+            console.log(theSheet);
+    }
+
+
+
+
+
+    addBgPicker() {
+            this.bgPicker = document.createElement('input');
+            this.bgPicker.classList.add('themeWrapper_' + this.index);
+// Give it a unique id
+            const pickerID = document.createAttribute('id');
+            pickerID.value = `picker_` + this.index;
+            this.bgPicker.setAttributeNode(pickerID);
+// Input type = color
+            const inputType = document.createAttribute('type');
+            inputType.value = `color`;
+            this.bgPicker.setAttributeNode(inputType);
+// Initial color value
+            const initColor = document.createAttribute('value');
+            initColor.value = `#333333`;
+            this.bgPicker.setAttributeNode(initColor);
+// Add the picker to the wrapper
+            this.themeWrapper.appendChild(this.bgPicker);
+// Add event to the picker
+            this.bgPicker.addEventListener('input', function(){
+// Set the bg color with the picker
+                this.parentNode.style.setProperty('background-color', this.value);
+            });
+
+    }
+
+
+// Add a Saturation slider
+    addSatSlider() {
+        let thisIndex = this.index;
+        let thisSwatch = this.swatch;
+        let thisResultHolder = this.WCAGresults;
+        let satSlider = document.createElement('input');
+        let sat;
+            const sliderType = document.createAttribute('type');
+            sliderType.value = 'range';
+            const sliderDefault = document.createAttribute('value');
+            sliderDefault.value = '0';
+            satSlider.setAttributeNode(sliderDefault);
+            satSlider.setAttributeNode(sliderType);
+            this.themeWrapper.appendChild(satSlider);
+
+            satSlider.addEventListener('input', function(){
+                sat = this.value;
+                // This changes the css variable at root level
+                r.style.setProperty('--sw-s_' + thisIndex, sat + "%");
+
+                    // Get the bg color of the swatch
+                        let swatchComputed = window.getComputedStyle(thisSwatch);
+                        let swatchBgColor = swatchComputed.getPropertyValue('background-color');
+                    // Convert to RGB
+                        let swatchRGB = getRGB(swatchBgColor);
+                    // Get the luminesence
+                        let swatchLum = luminance(swatchRGB.r, swatchRGB.g, swatchRGB.b)
+                        //console.log("swatchLum:", swatchLum);
+
+
+                    // Get the bg color of the theme
+                        let themeComputed = window.getComputedStyle(this.parentNode);
+                        let themeBgColor = themeComputed.getPropertyValue('background-color');
+                    // Convert to RGB
+                        let themeRGB = getRGB(themeBgColor);
+                    // Get the luminesence
+                        let themeLum = luminance(themeRGB.r, themeRGB.g, themeRGB.b)
+                        //console.log("themeLum:" , themeLum);
+
+                    // Calc score
+          
+                    let finalContrast = contrastThis(swatchLum,themeLum);
+                    thisResultHolder.innerHTML = finalContrast;
+                    thisResultHolder.style.color = swatchBgColor;
+
+            })   // End the eventListener
+    } // End the satSlider function
+
+// Add a Lightness slider
+    addLightSlider() {
+        let thisIndex = this.index;
+        let thisSwatch = this.swatch;
+        let thisResultHolder = this.WCAGresults;
+
+        let thisResultsText = document.getElementById('results_' + thisIndex);
+        //let para = thisResultsText.getElementsByTagName('p');
+        let lightSlider = document.createElement('input');
+        let light;
+            const sliderType = document.createAttribute('type');
+            sliderType.value = 'range';
+            const sliderDefault = document.createAttribute('value');
+            sliderDefault.value = '0';
+            lightSlider.setAttributeNode(sliderDefault);
+            lightSlider.setAttributeNode(sliderType);
+            this.themeWrapper.appendChild(lightSlider);
+
+            lightSlider.addEventListener('input', function(){
+                light = this.value;
+                r.style.setProperty('--sw-l_' + thisIndex, light + "%");
+         
+
+                    // Get the bg color of the swatch
+                    let swatchComputed = window.getComputedStyle(thisSwatch);
+                        let swatchBgColor = swatchComputed.getPropertyValue('background-color');
+                    // Convert to RGB
+                        let swatchRGB = getRGB(swatchBgColor);
+                    // Get the luminesence
+                        let swatchLum = luminance(swatchRGB.r, swatchRGB.g, swatchRGB.b)
+                        //console.log("swatchLum:", swatchLum);
+
+
+                    // Get the bg color of the theme
+                        let themeComputed = window.getComputedStyle(this.parentNode);
+                        let themeBgColor = themeComputed.getPropertyValue('background-color');
+                    // Convert to RGB
+                        let themeRGB = getRGB(themeBgColor);
+                    // Get the luminesence
+                        let themeLum = luminance(themeRGB.r, themeRGB.g, themeRGB.b)
+                        //console.log("themeLum:" , themeLum);
+
+                        
+
+                    // Calc score
+          
+                    let finalContrast = contrastThis(swatchLum,themeLum);
+                    thisResultHolder.innerHTML = finalContrast;
+                    thisResultHolder.style.color = swatchBgColor;
+                   
+                    
+
+                   
+
+
+
+            })   // End the eventListener
+    } // End the lightSlider function
+
+}
+
+// Create a new theme
+let addTheme = document.getElementById('addTheme');
+let index = 0;
+addTheme.addEventListener('click', function(){
+    let theme = new Theme(index);
+        theme.addWrapper();
+        theme.addWCAGresults();
+        theme.addSwatch();
+        theme.addBgPicker();
+        theme.addSatSlider();
+        theme.addLightSlider();
+        
+        //theme.getBgColor();
+        index += 1;
+});
+</script>

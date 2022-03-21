@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <link rel="stylesheet" href="../_STYLES/ui.css">
+    <style>
+    :root {
+    --brand-hue : 160;
+    --brand-saturation: 100%;
+    --brand-lightness: 50%;
+}
+
+* {
+/*-- MAIN --*/
+    --brand-light : hsl(var(--brand-hue), var(--brand-saturation), var(--brand-lightness));
+/*-- TEXT --*/
+    --text1-light: hsl(var(--brand-hue) var(--brand-saturation) 10%);
+    --text2-light: hsl(var(--brand-hue) 30% 30%);   
+/*-- SURFACES --*/
+    --surface1-light: hsl(var(--brand-hue) 25% 90%);
+    --surface2-light: hsl(var(--brand-hue) 20% 99%);
+    --surface3-light: hsl(var(--brand-hue) 20% 92%);
+    --surface4-light: hsl(var(--brand-hue) 20% 85%);
+
+    /*-- UI --*/
+--background-color : hsl(var(--brand-hue), var(--brand-saturation), var(--brand-lightness));
+}
+
+
+
+body, html {
+    background-color: var(--background-color);
+}
+
+nav {
+    background-color: hsl(var(--brand-hue), var(--brand-saturation), calc(var(--brand-lightness) - 0%));
+}
+.bg {
+    padding: 1rem;
+    position: absolute;
+    border-radius: 50%;
+    display: block;
+}
+
+
+#logo {
+    line-height: 1rem;
+    font-size: 1em;
+}
+
+pre {
+    padding:2rem;
+    background-color: #333;
+    color: yellow;
+    border-radius: 0.25rem;
+}
+
+iframe {
+    border-radius: 0.25rem;
+}
+    </style>
+</head>
+<body>
+    <nav><span id="logo">CAOIMH</span></nav>
+    <section id="body_wrap">
+        <p>This is the variants for the toggle buttons:
+<code>
+<pre>
+body, html {
+    background-color: var(--background-color);
+}
+
+nav {
+    background-color: hsl(var(--brand-hue), var(--brand-saturation), calc(var(--brand-lightness) - 0%));
+}
+.bg {
+    padding: 1rem;
+    position: absolute;
+    border-radius: 50%;
+    display: block;
+}
+
+
+#logo {
+    line-height: 1rem;
+    font-size: 1em;
+}
+</pre>
+            </code>
+        </p>
+        <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="100%" height="800px" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FP6TJK2IXweCvJ1r2QlLxAJ%2FSIGNI-System-1.0.0%3Fnode-id%3D3653%253A9" allowfullscreen></iframe> 
+    </section>
+</body>
+</html>

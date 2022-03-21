@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <link rel="stylesheet" href="../_STYLES/ui.css">
+    <script src="js/p5.min.js"></script>
+    <!--<script src="https://unpkg.com/p5.js-svg@1.1.1"></script>-->
+
+
+
+</head>
+<body>
+    <nav><span id="logo">CAOIMH</span></nav>
+    <section id="body_wrap">
+    </section>
+
+<script>
+  let img;
+  let cnv;
+  let dot = 100;
+  let dit = 3;
+  
+  let mover;
+  let amt = 4;
+  let bugs = [];
+  let r = 1;
+  let w;
+  let frames = 200;
+  let mago = 0.1;
+  let velo = 0.5;
+  let multo = 1;
+  let limito = 1;
+
+  let sw = 2;
+  let op = 10;
+
+
+
+let txt;
+
+
+  
+  
+  function preload(){
+    img = loadImage('images/me.png');
+    txt = loadStrings('text.txt');
+  }
+  
+  
+  function setup() {
+    noStroke();
+    cnv = createCanvas(img.width, img.height);
+    let newCanvasX = (window.width - img.width)/2;
+    let newCanvasY = (window.height - img.height)/2;
+    cnv.position(newCanvasX,newCanvasY);
+    rectMode(CENTER);
+
+    textSize(80);
+    for (let i = 0; i < txt.length; i++) {
+    fill(255,0,0);
+    text(txt[i], 10, 150+i*20);
+    }
+
+    for(let col = 0; col < img.width; col += dot){
+        for(let row = 0; row < img.height; row += dot){
+          let c = img.get(col,row); 
+          let huey = hue(c);
+          let alphy = alpha(huey);
+          if (huey > 20){ 
+          for(let i = 0; i < amt; i++){
+          bugs.push(new Mover(col,row, c));
+          }
+        }
+      }
+    }
+
+
+  
+    background(0);
+  }
+  
+  
+  
+  
+  
+  function draw(){
+
+    if(frameCount < frames){
+
+    strokeWeight(sw);
+    for(let i = 0; i < bugs.length; i++){
+  
+        bugs[i].update();
+   
+        ellipse(bugs[i].pos.x,bugs[i].pos.y, 5,5);
+       
+      } 
+
+      sw -= 0.001;
+    } 
+  }
+  
+  
+  class Mover {
+    
+    constructor(x,y, kol){
+      this.pos = createVector(x,y);
+      this.theta = 0;
+      this.radius = 40;
+    }
+    
+    update(){
+      this.pos.x = cos(this.theta) * this.radius;
+      this.pos.y = sin(this.theta) * this.radius;
+      this.theta += 0.1;
+
+      console.log(this.theta);
+      
+      //stroke( 255,0,0,op );
+      //stroke(255);
+      fill( this.color);
+    }
+  
+  }
+
+  </script>
+</body>
+</html>

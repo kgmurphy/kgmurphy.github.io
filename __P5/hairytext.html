@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <link rel="stylesheet" href="../_STYLES/ui.css">
+    <script src="js/p5.min.js"></script>
+    <!--<script src="https://unpkg.com/p5.js-svg@1.1.1"></script>-->
+
+  <style>
+    canvas {
+      margin: auto;
+      margin-top: 100px;
+    }
+
+    body {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+  </style>
+
+</head>
+<body>
+
+  <nav><span id="logo">CAOIMH --> hairy text</span></nav>
+
+
+
+<script>
+  let img;
+  let cnv;
+  let dot = 20;
+  let dit = 3;
+  
+  let mover;
+  let amt = 4;
+  let bugs = [];
+  let r = 2;
+  let w;
+  let frames = 600;
+  let mago = 0.1;
+  let velo = 0.5;
+  let multo = 1;
+  let limito = 1;
+
+  let sw = 1;
+  let op = 80;
+  var font;
+  let t;
+  let fSize = 168;
+
+  
+  
+  function preload(){
+    img = loadImage('images/eggs.png');
+    font = loadFont('fonts/IBMPlexMono-Bold.otf');
+    txt = loadStrings("text.txt");
+  }
+
+  
+  
+  function setup() {
+    
+    cnv = createCanvas(1600, 400);
+
+    rectMode(CENTER);
+
+    if (txt.length > 0) {
+        for (let i = 0; i < txt.length; i++) {
+            t = txt[i];
+        }
+    }
+    else {
+        text("File is empty", 20, 120);
+    }
+
+  
+    var pts = font.textToPoints(t, 110, 210, fSize,{
+      sampleFactor: 0.2, // increase for more points
+      simplifyThreshold: 0.0 // increase to remove collinear points
+    });
+
+    for(var i = 0; i < pts.length; i++){
+      bugs.push(new Mover(pts[i].x,pts[i].y));
+      stroke(0,200,200);
+      fill(255);
+      ellipse(pts[i].x, pts[i].y, 30,30);
+    }
+  
+    background(0);
+  }
+  
+  
+  
+  
+  
+  function draw(){
+    if(frameCount < frames){
+    strokeWeight(sw);
+    for(let i = 0; i < bugs.length; i++){
+  
+        bugs[i].update();
+        bugs[i].edges();
+  
+        line(bugs[i].pos.x,bugs[i].pos.y,bugs[i].pxpy.x, bugs[i].pxpy.y);  
+        //point(bugs[i].pxpy.x,bugs[i].pxpy.y);
+        bugs[i].pxpy.x = bugs[i].pos.x;
+        bugs[i].pxpy.y = bugs[i].pos.y;
+       
+      } 
+
+     // sw -= 0.1;
+    } 
+  }
+  
+  
+  class Mover {
+    
+    constructor(x,y){
+      this.pos = createVector(x,y);
+      this.vel = p5.Vector.random2D();
+      this.vel.mult(random(multo));
+      this.pxpy = createVector(x,y);
+
+    }
+    
+    update(){
+      //let mouse = createVector(mouseX, mouseY);
+      //this.acc = p5.Vector.sub(mouse, this.pos);
+      this.acc = p5.Vector.random2D();
+      this.acc.mult(.1);
+      this.acc.setMag(mago);
+      
+      this.vel.limit(velo);
+      this.vel.add(this.acc);
+      this.pos.add(this.vel.x, this.vel.y);
+      
+      stroke( 255,0,0,op);
+      //fill( this.color );
+    }
+    
+    edges(){
+      if(this.pos.y >= height){
+         this.pos.y = height;
+         this.vel.y *= -1;
+         }
+        if(this.pos.y <= 0){
+         this.pos.y = 0;
+         this.vel.y *= -1;
+         }
+        if(this.pos.x >= width){
+         this.pos.x = width;
+         this.vel.x *= -1;
+         }
+          if(this.pos.x <= 0){
+         this.pos.x = 0;
+         this.vel.x *= -1;
+         }
+    }
+  
+    
+
+  
+  }
+
+
+  </script>
+</body>
+</html>

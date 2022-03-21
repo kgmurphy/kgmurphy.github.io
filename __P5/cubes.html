@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <script src="js/p5.min.js"></script>
+
+
+
+</head>
+<body>
+<script>
+  let cnv;
+  let dot = 50;
+  
+  let mover;
+  let amt = 1;
+  let bugs = [];
+  let frames = 10000;
+
+
+  
+  
+  function setup() { 
+   
+    cnv = createCanvas(500, 500, WEBGL);
+    for(let col = 0; col < width; col += dot){
+     for(let row = 0; row < height; row += dot){
+          for(let i = 0; i < amt; i++){
+          bugs.push(new Mover(col,row));
+          }
+      }
+    }
+  }
+  
+  
+  
+  
+  
+  function draw(){
+
+    background(255);
+    ambientLight(60, 60, 60);
+    pointLight(255, 255, 255, locX, locY, 100);
+    translate(-width/2,-height/2);
+    if(frameCount < frames){
+    strokeWeight(1);
+    for(let i = 0; i < bugs.length; i++){
+        //bugs[i].update();
+        bugs[i].display();     
+      } 
+    }
+    noLoop(); 
+  }
+  
+  
+  class Mover {
+    
+    constructor(x,y){
+      this.pos = createVector(x,y);
+    }
+    
+    update(){
+        rotateZ(sin(frameCount) * 0.0001);
+        rotateX(sin(frameCount) * 0.0001);
+        rotateY(sin(frameCount) * 0.0001);
+    }
+
+    display(){
+      push();
+      translate(this.pos.x, this.pos.y);
+        fill(random(255));
+        specularMaterial(250);
+
+        /*
+        rotateX(random(36));
+        rotateY(random(36));
+        rotateZ(random(36));
+        */
+       rotateX(30);
+       rotateY(30);
+        box(random(40), random(240), random(140));
+        pop();
+    }
+  
+  }
+
+  </script>
+</body>
+</html>

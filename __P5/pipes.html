@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <script src="js/p5.min.js"></script>
+    <!--<script src="https://unpkg.com/p5.js-svg@1.1.1"></script>-->
+
+<style>
+  img {
+    z-index: 1000;
+    position: absolute;
+    top: 0;
+  }
+</style>
+
+</head>
+<body>
+
+<script>
+
+
+let imgs = [];
+let shuffler = [];
+let temp_shuffler = [];
+let step = 40;
+let count = 0;
+let max;
+let x = 0;
+let y = 0;
+
+  function preload(){
+    img_a = loadImage('images/pipes/a.png');
+    img_b = loadImage('images/pipes/b.png');
+    img_c = loadImage('images/pipes/c.png');
+    img_d = loadImage('images/pipes/d.png');
+    img_e = loadImage('images/pipes/e.png');
+    img_f = loadImage('images/pipes/f.png');
+
+    imgs.push(img_a,img_b,img_c,img_d);
+  }
+  
+  
+  function setup() {
+    
+    cnv = createCanvas(800, 800);
+    max = width/step;
+    let seedpipe = imgs[Math.floor(Math.random() * imgs.length)];
+    shuffler.push(seedpipe);
+    image(shuffler[0], x, y);
+  }
+  
+  
+  function draw(){
+
+  
+  }
+
+  function mousePressed(){
+     
+    
+      // roll the dice
+      // see whats in shuffler
+      // logic
+      //let diceroll = floor(Math.random()* 6);
+      count += 1;
+            // A
+        if(shuffler[0] == imgs[0]){
+            shuffler = [];
+            print("A", shuffler);
+            shuffler.push(img_b, img_c);
+            // B
+        } else if(shuffler[0] == imgs[1]){
+            shuffler = [];
+            print("B", shuffler);
+            shuffler.push(img_a, img_d);
+            // C
+        } else if(shuffler[0] == imgs[2]){
+            shuffler = [];
+            print("C", shuffler);
+            shuffler.push(img_a, img_d);
+            // D
+        } else if(shuffler[0] == imgs[3]){
+            shuffler = [];
+            print("D", shuffler);
+            shuffler.push(img_b, img_c);
+            // E
+        } 
+
+        for(let i = 0; i < width; i+= step){
+        let chosen_shuffled = shuffler[Math.floor(Math.random() * shuffler.length)];
+        image(chosen_shuffled, x + i, y);
+        }
+
+      //imgs.push(chosen_shuffled);
+      
+
+     
+
+
+      
+      
+    print(shuffler[0], shuffler.length);
+  }
+
+  function filler(){
+
+  }
+  
+
+
+  </script>
+</body>
+</html>

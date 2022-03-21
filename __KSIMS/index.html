@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <script src="js/p5.min.js"></script>
+    <<!--<script src="https://unpkg.com/p5.js-svg@1.1.1"></script>-->
+    <script src="https://unpkg.com/p5.js-svg@1.1.1"></script>
+<style>
+  body,html {
+    display: flex;
+    flex-direction: row;
+  }
+  #defaultCanvas0 {
+    border: solid 2px #000;
+  }
+
+  #controls {
+    border: solid 2px #000;
+  }
+</style>
+</head>
+<body>
+
+<script>
+let pg;
+let saver;
+
+let svg;
+let path;
+let p1;
+
+let hairradios = document.getElementsByName('hair');
+let bodyradios = document.getElementsByName('body');
+
+let hair_type;
+
+  function preload(){
+    body_m = loadImage('images/bodies/body-m.png');
+    body_f = loadImage('images/bodies/body-f.png');
+    hair_0 = loadImage('images/hairs/hair_0.png');
+    hair_1 = loadImage('images/hairs/hair_1.png');
+    hair_2 = loadImage('images/hairs/hair_2.png');
+    hair_3 = loadImage('images/hairs/hair_3.png');
+    // svg
+    svg = loadSVG('images/test.svg');
+    
+  }
+  
+  
+  function setup() {
+    cnv = createCanvas(800, 800, SVG);
+    pg = createGraphics(width, height);
+
+    // Body type
+    body_type = body_m;
+    for(let i = 0; i < bodyradios.length; i++){
+      bodyradios[i].addEventListener('click', function(){
+        let bodyId = bodyradios[i].getAttribute('id');       
+        chooseHBody(bodyId);
+      });
+    }
+    
+
+    // Hair
+    hair_type = hair_0;
+
+    for(let i = 0; i < hairradios.length; i++){
+      hairradios[i].addEventListener('click', function(){
+        let hairId = hairradios[i].getAttribute('id');       
+        chooseHair(hairId);
+      });
+    }
+
+
+    // Save
+    saver = document.getElementById('saver');
+    saver.addEventListener('click', function(){
+      pg.save("pg.png");
+    });
+   
+    image(svg, 0, 0, 200, 200);
+    p1 = querySVG('path')[0];
+
+  }
+  
+  
+  function draw(){
+    p1.attribute('fill', 'green');
+
+    pg.image(body_type,width/2-88,100);
+    pg.image(hair_type,width/2-88,100);
+
+    
+    image(pg, 0, 0);
+
+    svg.attribute("fill", "rgba(255, 0, 0, 255)");
+
+  }
+
+
+    function chooseHair(val){
+          if(val == 'green'){
+          hair_type = hair_1; 
+        } else if (val == 'orange'){
+          hair_type = hair_2;
+        } else if(val = 'mustard') {
+          hair_type = hair_3;
+        }
+    }
+
+    function chooseHBody(val){
+          if(val == 'male'){
+          body_type = body_m; 
+        } else if (val == 'female'){
+          body_type = body_f;
+        } 
+    }
+
+    function saveMe() { 
+       // pg.save("pg.png");
+    }
+
+</script>
+<section id ="controls">
+<div id ="hairs">
+  <label f   or="green">green
+    <input type="radio" id="green" name="hair" checked">
+  </label>
+  <label    for="orange">orange
+    <input type="radio" id ="orange" name="hair">
+  </label>
+  <label    for="mustard">mustard
+    <input type="radio" id ="mustard" name="hair">
+  </label>
+</div>
+
+<div id="bodies">
+  <label for="male">M-ish
+    <input type="radio" id="male" name="body" checked">
+  </label>
+  <label for="female">F-ish
+    <input type="radio" id ="female" name="body">
+  </label>
+</div>
+
+
+<div>
+  <button id="saver">SAVER</button>
+</div>
+</section>
+</body>
+</html>

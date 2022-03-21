@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <script src="js/p5.min.js"></script>
+    <script src="https://unpkg.com/p5.js-svg@1.1.1"></script>
+
+<style>
+  canvas {
+    z-index: 1000;
+    position: absolute;
+    top: 0;
+  }
+</style>
+
+</head>
+<body>
+<img src="images/eggs.png" alt="">
+<script>
+  let img;
+  let cnv;
+  let gridstep;
+  let divider = 10;
+  let bugs = [];
+  let dot = 20;
+  let frames = 1000;
+  let sw = 4;
+  let op = 255;
+ 
+  function preload(){
+    img = loadImage('images/eggs.png');
+  }
+  
+  
+  function setup() {
+    
+    cnv = createCanvas(img.width, img.height);
+// randomize the bg
+    background(0);
+
+    for(let col = 0; col < img.width; col += dot){
+        for(let row = 0; row < img.height; row += dot){
+          bugs.push(new Mover(col,row)); 
+      }
+    }
+  
+
+    gridstep = cnv.width/divider;
+    stroke(255, 50);
+  
+ 
+    for(let i = 0; i < cnv.width; i += gridstep){
+        for(let j = 0; j < cnv.height; j+= gridstep){
+            strokeWeight(1);
+            line(i,j, i+gridstep, j+gridstep);
+            line(i+gridstep,j, i, j+gridstep);
+      }
+
+    }
+
+    // verticals
+    for(let i = 0; i < cnv.width; i += gridstep){
+        line(i,0, i, height);
+    }
+
+    // horizontals
+    for(let j = 0; j < cnv.height; j += gridstep){
+        line(0,j,width,j);
+    }
+
+    
+  }
+  
+
+  
+  
+  function draw(){
+    if(frameCount < frames){
+    strokeWeight(sw);
+    for(let i = 0; i < bugs.length; i++){
+  
+        bugs[i].update();
+        //bugs[i].edges();
+  
+        line(bugs[i].pos.x,bugs[i].pos.y,bugs[i].pxpy.x, bugs[i].pxpy.y);  
+        //point(bugs[i].pxpy.x,bugs[i].pxpy.y);
+        bugs[i].pxpy.x = bugs[i].pos.x;
+        bugs[i].pxpy.y = bugs[i].pos.y;
+       
+      } 
+
+      //sw -= 0.005;
+    } 
+
+  
+
+  }
+  
+  
+  class Mover {
+    
+    constructor(x,y){
+      this.pos = createVector(x,y);
+      this.vel = p5.Vector.random2D();
+      this.vel.mult(random(1));
+      this.pxpy = createVector(x,y);
+      //this.color = color(kol/2);
+      this.color_r = random(255);
+      this.color_g = random(25);
+    }
+    
+    update(){
+      //let mouse = createVector(mouseX, mouseY);
+      //this.acc = p5.Vector.sub(mouse, this.pos);
+      this.acc = p5.Vector.random2D();
+      this.acc.mult(.1);
+      this.acc.setMag(1);
+      
+      this.vel.limit(1);
+      this.vel.add(this.acc);
+      this.pos.add(this.vel.x, this.vel.y);
+      
+      stroke(this.color_r,this.color_g,0,op );
+      //stroke(0,0,0,op );
+      //fill( this.color );
+    }
+    
+    edges(){
+      if(this.pos.y >= height){
+         this.pos.y = height;
+         this.vel.y *= -1;
+         }
+        if(this.pos.y <= 0){
+         this.pos.y = 0;
+         this.vel.y *= -1;
+         }
+        if(this.pos.x >= width){
+         this.pos.x = width;
+         this.vel.x *= -1;
+         }
+          if(this.pos.x <= 0){
+         this.pos.x = 0;
+         this.vel.x *= -1;
+         }
+    }
+  
+  
+  }
+
+
+  </script>
+</body>
+</html>

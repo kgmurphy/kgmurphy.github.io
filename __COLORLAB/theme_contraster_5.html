@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        :root {
+        --hue-angle : 50;
+        --sw-h : 10;
+        --sw-s : 100%;
+        --sw-l : 50%;
+        }
+
+        #main {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .theme {
+            border: solid 1px #333;
+            min-width: 200px;
+            height: 50vh;
+            background-color: blueviolet;
+        }
+
+        .swatch {
+            background-color: hsl(var(--sw-h),var(--sw-s),var(--sw-l));
+
+            height: 120px;
+            width: 120px;
+
+        }
+    </style>
+</head>
+<body>
+    <button id="addTheme">Add theme</button>
+    <section id="main"></section>
+    <div id = "result"></div>
+</body>
+</html>
+
+
+
+
+<script>
+// Global vars
+    var r = document.querySelector(':root');
+    let swatch = document.getElementById('swatch');
+// The section containing each theme
+    let main = document.getElementById('main');
+
+
+
+    /* Borrowed functions */
+    function hexToRgb(hex) {
+        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+            return r + r + g + g + b + b;
+        });
+
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+
+    function getRGB(str){
+        var match = str.match(/rgba?\((\d{1,3}), ?(\d{1,3}), ?(\d{1,3})\)?(?:, ?(\d(?:\.\d?))\))?/);
+        return match ? {
+            r: match[1],
+            g: match[2],
+            b: match[3]
+        } : {};
+    }
+
+
+    function luminance(r, g, b) {
+        var a = [r, g, b].map(function (v) {
+            v /= 255;
+            return v <= 0.03928
+                ? v / 12.92
+                : Math.pow( (v + 0.055) / 1.055, 2.4 );
+        });
+        console.log(a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722);
+        return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+    }
+
+
+    function contrastThis(color1luminance,color2luminance, displayResult){
+        // calculate the color contrast ratio
+        const ratio = color1luminance > color2luminance 
+        ? ((color2luminance + 0.05) / (color1luminance + 0.05))
+        : ((color1luminance + 0.05) / (color2luminance + 0.05));
+
+
+        // show results depending on WCAG requirements
+        const result = `
+                        AA-level large text: ${ratio < 1/3 ? 'PASS' : 'FAIL' }<br>
+                        AA-level small text: ${ratio < 1/4.5 ? 'PASS' : 'FAIL' }<br>
+                        AAA-level large text: ${ratio < 1/4.5 ? 'PASS' : 'FAIL' }<br>
+                        AAA-level small text: ${ratio < 1/7 ? 'PASS' : 'FAIL' }
+                    `;
+                    displayResult.innerHTML = result;
+        return ratio;
+    }
+
+// Theme maker
+class Theme {
+    constructor(index){
+        this.index = index;
+    }
+
+// Add a wrapper
+       
+    addWrapper(){ 
+        let themeWrapper = document.createElement('div');     
+            themeWrapper.classList.add('theme');
+            themeWrapper.classList.add('themeWrapper_' + this.index);
+      const themeID = document.createAttribute('id');
+            themeID.value = `themeWrapper_` + this.index;
+            themeWrapper.setAttributeNode(themeID);
+        let thisindex = this.index;
+
+ // Insert a swatch      
+        let swatch = document.createElement('div');
+            swatch.classList.add('swatch');
+            swatch.classList.add('swatch_' + this.index);
+// Attach the swatch to the theme wrapper
+            themeWrapper.appendChild(swatch);   
+// Attach the theme to the main section
+            main.appendChild(themeWrapper);
+// Next steps:
+// 1. get the bb color of the wrapper
+// 2. get the bg color of the swatch
+// 3. convert these to rgb
+// 4. get their luminosities
+// 5. run a contrast function on them
+// 6. display the contrast value in terms of wcag standards
+// 7. update this value every time i change  a h, s or l of the 
+//    swatch or the wrapper bg OR the brand main hue
+
+// Swatch -->
+        let swatchComputed = window.getComputedStyle(swatch);
+        let swatchBgColor = swatchComputed.getPropertyValue('background-color');
+        console.log("swatchBgColor:", swatchBgColor);
+// Hex to rgb 
+        let swatchHex = getRGB(swatchBgColor);
+// Get the luminance
+        let swatchLuminance = luminance(swatchHex.r, swatchHex.g, swatchHex.b);
+
+// Wrapper -->
+        let themeComputed = window.getComputedStyle(themeWrapper);
+        let themeBgColor = themeComputed.getPropertyValue('background-color');
+// Hex to rgb 
+        let themeHex = getRGB(themeBgColor);
+// Get the luminance
+        let themeLuminance = luminance(themeHex.r, themeHex.g, themeHex.b);
+// make a color picker for the swatch and call the contrast function each time
+        // Add a background color picker
+        let picker = document.createElement('input');
+            picker.classList.add('themeWrapper_' + this.index);
+// Give it a unique id
+      const pickerID = document.createAttribute('id');
+            pickerID.value = `picker_` + this.index;
+            picker.setAttributeNode(pickerID);
+// Input type = color
+      const inputType = document.createAttribute('type');
+            inputType.value = `color`;
+            picker.setAttributeNode(inputType);
+// Initial color value
+      const initColor = document.createAttribute('value');
+            initColor.value = `#333333`;
+            picker.setAttributeNode(initColor);
+// Add some divs to put the updating values
+            let bgOutput = document.createElement('p');
+            bgOutput.textContent ='#______';
+
+// Create something to print the results into
+            let result = document.createElement('div');
+
+//let this_result = result;
+            themeWrapper.appendChild(result);
+
+// Add event to picker
+            picker.addEventListener('input', function(){
+// Set the theme background-color
+            //themeWrapper.style.setProperty('background-color', picker.value);
+            themeBgColor.style.setProperty('background-color', picker.value);
+            bgOutput.textContent = picker.value;
+// Hex to rgb 
+            let bgHex = hexToRgb(picker.value);
+//console.log("rgb:", bgHex);
+
+// Get the luminance
+            let bgLuminance = luminance(bgHex.r, bgHex.g, bgHex.b);
+
+            contrastThis(themeLuminance, swatchLuminance, result);
+        });
+// Append picker to theme wrapper          
+        themeWrapper.appendChild(picker);
+        
+
+
+    }
+}
+
+// Create a new theme
+let addTheme = document.getElementById('addTheme');
+let index = 0;
+addTheme.addEventListener('click', function(){
+    let theme = new Theme(index);
+        theme.addWrapper();
+        index += 1;
+});
+</script>
+
+
+<script>
+    /*
+
+    Get the rgb of FG
+    Get the luminesence of FG
+    */
+</script>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme contraster</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <link rel="stylesheet" href="../_STYLES/ui.css">
+    <style>
+        :root {
+            --hue-angle : 90;
+            --sat_0 : 50%;
+            --lit_0 : 50%;
+            --sat_1 : 50%;
+            --lit_1 : 50%;
+            --sat_2 : 50%;
+            --lit_2 : 50%;
+            --theme-bg_0: rgb(2, 2, 2);
+            --theme-bg_1: #ddd;
+            --theme-bg_2: #eee;
+
+            --test-color: hsl(var(--hue-angle),var(--sat),var(--lit) );
+
+            --sat_FG_theme_0: 10%;
+            --lit_FG_theme_0: 90%;
+
+            --sat_FG_theme_1: 10%;
+            --lit_FG_theme_1: 90%;
+
+            --sat_FG_theme_2: 10%;
+            --lit_FG_theme_2: 90%;
+        }
+        section {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .col {
+            display: flex;
+            flex: 1;
+        }
+
+        #theme-1,
+        #theme-2,
+        #theme-3 {
+            height: calc(100vh - 48px);
+            display: flex; 
+            flex-direction: column;
+        }
+
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            background-color: #d0d0d0;
+            height: 50%;
+            margin: 2rem;
+            border-radius: 0.5rem;
+            padding: 2rem;
+        }
+
+        .display {
+            display: flex;
+            flex-direction: column;
+            height: 50%;
+            color: hsl(var(--hue-angle), 50%, 50%);
+        }
+
+        .display * {
+            margin: auto;
+        }
+
+        #theme-1 {
+            background-color: var(--theme-bg_0);
+        }
+        #theme-2 {
+            background-color: var(--theme-bg_1);
+        }
+        #theme-3 {
+            background-color: var(--theme-bg_2);
+        }
+
+        .circle_0, .circle_1, .circle_2 {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 50%;
+        }
+
+        .text_0 {
+            color: hsl(var(--hue-angle),var(--sat_0), var(--lit_0));
+        }
+        .text_1 {
+            color: hsl(var(--hue-angle),var(--sat_1), var(--lit_1));
+        }
+        .text_2 {
+            color: hsl(var(--hue-angle),var(--sat_2), var(--lit_2));
+        }
+
+        .circle_0 {
+            background-color: hsl(var(--hue-angle),var(--sat_0), var(--lit_0));
+        }
+        .circle_1 {
+            background-color: hsl(var(--hue-angle),var(--sat_1), var(--lit_1));
+        }
+        .circle_2 {
+            background-color: hsl(var(--hue-angle),var(--sat_2), var(--lit_2));
+        }
+
+
+        label, input {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <nav><span id="logo">CAOIMH</span></nav>
+
+
+    <section id="theMammy">
+       <div><label for="hue_angle">Hue angle<input type="range" id="hue_angle" min="0" max="360" value = "0" step="1"></label>
+        <p>Hue:&nbsp;<span id="hue_angle_value"></span></p>
+
+        </div>
+        <div class="theme" id="theme-1">
+            <div class="display">
+                <div class="text_0">
+                    <h1 >A h1</h1>
+                    <p class="testText">A whole bunch of text</p>
+                </div>
+                
+                <div class="circle_0"></div>
+            </div>
+            <div class="controls">
+                
+                <input type="color" id="colorwell_theme_0" data="picker" name="colorwell_theme_0">
+                <p>BG:<span id="colorwell_value_theme_0"></span></p>
+                <label>Foreground:</label>
+                <label for="saturation_theme_0">Saturation <span id="saturation_value_theme_0"></span><input type="range" id="saturation_theme_0" min="0" max="100" value = "50" step="1"></label>
+                <label for="lightness_theme_0">Lightness <span id="lightness_value_theme_0"></span><input type="range" id="lightness_theme_0" min="0" max="100" value = "50" step="1"></label>
+
+            </div>
+        </div>
+        <div class="theme" id="theme-2">
+            <div class="display">
+                <div class="text_1">
+                    <h1 >A h1</h1>
+                    <p class="testText">A whole bunch of text</p>
+                </div>
+                <div class="circle_1"></div>
+            </div>
+            <div class="controls">
+                <input type="color" id="colorwell_theme_1"  data = "picker" name="colorwell_theme_1">
+                <p>BG:<span id="colorwell_value_theme_1"></span></p>
+                <label for="saturation_theme_1">Saturation <span id="saturation_value_theme_1"></span><input type="range" id="saturation_theme_1" min="0" max="100" value = "50" step="1"></label>
+                <label for="lightness_theme_1">Lightness <span id="lightness_value_theme_1"></span><input type="range" id="lightness_theme_1" min="0" max="100" value = "50" step="1"></label>
+            </div>
+        </div>
+        <div class="theme" id="theme-3">
+            <div class="display">
+                <div class="text_2">
+                    <h1 >A h1</h1>
+                    <p class="testText">A whole bunch of text</p>
+                </div>
+                <div class="circle_2"></div>
+            </div>
+            <div class="controls">
+                <label for="colorwell_theme_2">BG:<span id="colorwell_value_theme_2"></span></label>
+                <input type="color" id="colorwell_theme_2" data = "picker" name="colorwell_theme_2">
+                <label for="saturation_theme_2">Saturation <span id="saturation_value_theme_2"></span><input type="range" id="saturation_theme_2" min="0" max="100" value = "50" step="1"></label>
+                <label for="lightness_theme_2">Lightness <span id="lightness_value_theme_2"></span><input type="range" id="lightness_theme_2" min="0" max="100" value = "50" step="1"></label>
+
+
+            </div>
+        </div>
+
+<script>
+    /*
+1. be able to set the overall theme angle
+2. be able to set the theme background color
+*/
+// Global vars
+            var r = document.querySelector(':root');
+            let hue_angle = document.getElementById('hue_angle');
+            let hue_angle_value = document.getElementById('hue_angle_value');
+
+            let theme_0 = document.getElementById('theme-1');
+            let theme_1 = document.getElementById('theme-2');
+            let theme_2 = document.getElementById('theme-3');
+
+            let sat_theme_0 = document.getElementById('saturation_theme_0');
+            let sat_theme_1 = document.getElementById('saturation_theme_1');
+            let sat_theme_2 = document.getElementById('saturation_theme_2');
+
+            let theme_0_lit = document.getElementById('theme_0_lightness');
+            let theme_1_lit = document.getElementById('theme_1_lightness');
+            let theme_2_lit = document.getElementById('theme_2_lightness');
+
+            let colorwell_value_theme_0 = document.getElementById('colorwell_value_theme_0');
+            let colorwell_value_theme_1 = document.getElementById('colorwell_value_theme_1');
+            let colorwell_value_theme_2 = document.getElementById('colorwell_value_theme_2');
+
+            let lightness_value_theme_0 = document.getElementById('lightness_value_theme_0');
+            let lightness_value_theme_1 = document.getElementById('lightness_value_theme_1');
+            let lightness_value_theme_2 = document.getElementById('lightness_value_theme_2');
+
+            let saturation_value_theme_0 = document.getElementById('saturation_value_theme_0');
+            let saturation_value_theme_1 = document.getElementById('saturation_value_theme_1');
+            let saturation_value_theme_2 = document.getElementById('saturation_value_theme_2');
+
+            /* Borrow functions */
+                function hexToRgb(hex) {
+                var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+                hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+                    return r + r + g + g + b + b;
+                });
+
+                var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                return result ? {
+                    r: parseInt(result[1], 16),
+                    g: parseInt(result[2], 16),
+                    b: parseInt(result[3], 16)
+                } : null;
+                }
+
+
+                function componentToHex(c) {
+                var hex = c.toString(16);
+                return hex.length == 1 ? "0" + hex : hex;
+                }
+
+                function rgbToHex(r, g, b) {
+                return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+                }
+
+                function getRGB(str){
+                var match = str.match(/rgba?\((\d{1,3}), ?(\d{1,3}), ?(\d{1,3})\)?(?:, ?(\d(?:\.\d?))\))?/);
+                return match ? {
+                    red: match[1],
+                    green: match[2],
+                    blue: match[3]
+                } : {};
+                }
+
+
+                function luminance(r, g, b) {
+                var a = [r, g, b].map(function (v) {
+                    v /= 255;
+                    return v <= 0.03928
+                        ? v / 12.92
+                        : Math.pow( (v + 0.055) / 1.055, 2.4 );
+                });
+                return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+                }
+
+/* End Borrow functions */
+/* Get the initial rgb of the text*/
+                let textRGB;
+            let getTextFGC = function(){
+                let para = document.getElementsByClassName('testText');
+                for(let i = 0; i < para.length; i++){
+                    let para_style = window.getComputedStyle(para[i]);
+                    let para_color = para_style.getPropertyValue('color');
+                    textRGB = getRGB(para_color);
+                    return textRGB;
+                    //console.log("text rgb:", textRGB);
+                }
+
+            }
+
+            let getTextLum = function(){
+                const textLuminance = luminance(textRGB.red, textRGB.green, textRGB.blue);
+                console.log(textLuminance);
+            }
+
+            getTextFGC();  
+            getTextLum(); 
+
+
+
+// Get the themes
+            let themes = document.getElementsByClassName('theme');
+
+// Get and Set the global hue angle
+            hue_angle.addEventListener('input', function(){
+                r.style.setProperty('--hue-angle', hue_angle.value);
+                hue_angle_value.innerHTML = hue_angle.value;
+            });
+
+            sat_theme_0.addEventListener('change', function(){
+                //let thisSat = theme_0.getElementsByClassName('display');
+                //console.log(thisSat);
+                //thisSat.style.setProperty('--sat', theme_0_sat.value);
+            });
+
+// Set theme columns background colors
+            let colorwells = [];
+            for(let i = 0; i < themes.length; i++){
+            let colorwell = themes[i].querySelector("input[data='picker']");
+            colorwells.push(colorwell);
+            }
+
+        for(let j = 0; j < colorwells.length; j++){
+                colorwells[j].addEventListener("input", function(){
+                    r.style.setProperty('--theme-bg_' + j, colorwells[j].value);
+
+                    if (j == 0){
+                    let currVal = hexToRgb(colorwells[j].value); 
+                    console.log("BG-0:", currVal);
+                    } else if (j == 1){
+                    let currVal = hexToRgb(colorwells[j].value); 
+                    console.log("BG-1:", currVal);
+                    } else if (j == 2){
+                    let currVal = hexToRgb(colorwells[j].value); 
+                    console.log("BG-2:", currVal);
+                    }
+                    
+                    
+                }, false);          
+            }
+            
+/*
+            colorwell.addEventListener("input", function(){
+            //r.style.setProperty('--theme-1bg', colorwell.value);
+            //colorwell_value_theme_ + i.innerHTML = colorwell_theme_ + i.value;
+            }, false);*/
+
+            /*colorwell_theme_1.addEventListener("input", function(){
+            r.style.setProperty('--theme-2bg', colorwell_theme_1.value);
+            colorwell_value_theme_1.innerHTML = colorwell_theme_1.value;
+            }, false);
+
+            colorwell_theme_2.addEventListener("input", function(){
+            r.style.setProperty('--theme-3bg', colorwell_theme_2.value);
+            colorwell_value_theme_2.innerHTML = colorwell_theme_2.value;
+            }, false);*/
+
+
+// Loop through the theme columns
+// For each theme col create a var for each input type
+// Then call each input as this
+
+
+/*
+For each theme
+1. Get the Foreground Color FGC
+2. Get the Background Color BGC
+
+Convert these to RGB
+Compute their Luminosity
+Compare their contrast
+*/
+
+            let getThemeBGC = function(){
+                for(let i = 0; i < themes.length; i++){
+// 1. Get the theme computed style
+                let themeComputedStyle = window.getComputedStyle(themes[i]);
+// 2. Extract the background-color from the computed style and save as var themeBGC
+                let themeBGC = themeComputedStyle.getPropertyValue('background-color');
+                let rgb = getRGB(themeBGC);
+// 3. Extract the r,g,b values seperately
+                console.log("theme bgc:", rgb);
+                }
+            }
+
+            getThemeBGC();
+
+            for(let i = 0; i < themes.length; i++){
+                let thisControl = themes[i].getElementsByClassName('controls');
+                let thisDisplay = themes[i].getElementsByClassName('display');
+                let thisDiv = themes[i].getElementsByClassName('circle');
+
+                // add a hook
+                
+                let thisText = themes[i].getElementsByTagName('h1');
+                let thisSat = themes[i].getElementsByTagName('input');
+                let thisPickers = themes[i].getElementsByTagName('input');
+
+
+
+                for(let j = 0; j < thisPickers.length; j++){
+                    //let satPicker = thisPickers[j].('saturation_theme' + j);
+                    //console.log("thisPickers:",thisPickers[j]);
+                    thisPickers[j].addEventListener('input', function(){
+                        //Check what kind of picker it is
+                        //Tell it to change a css variable for its display
+                        let thisId = thisPickers[j].getAttribute('id');
+                        //let thisDiv = themes[i].getElementsByClassName('circle');
+                        if
+                        (thisId == 'saturation_theme_0'){
+                            r.style.setProperty('--sat_0', thisPickers[j].value + '%');
+                            saturation_value_theme_0.innerHTML = thisPickers[j].value;
+                        }
+                        else if
+                        (thisId == 'lightness_theme_0'){
+                            r.style.setProperty('--lit_0', thisPickers[j].value + '%');
+                            lightness_value_theme_0.innerHTML = thisPickers[j].value;
+                        }
+
+                        else if
+                        (thisId == 'saturation_theme_1'){
+                            r.style.setProperty('--sat_1', thisPickers[j].value + '%');
+                            saturation_value_theme_1.innerHTML = thisPickers[j].value;
+                        }
+                        else if
+                        (thisId == 'lightness_theme_1'){
+                            r.style.setProperty('--lit_1', thisPickers[j].value + '%');
+                            lightness_value_theme_1.innerHTML = thisPickers[j].value;
+                        }
+                        else if
+                        (thisId == 'saturation_theme_2'){
+                            r.style.setProperty('--sat_2', thisPickers[j].value + '%');
+                            saturation_value_theme_2.innerHTML = thisPickers[j].value;
+                        }
+                        else if
+                        (thisId == 'lightness_theme_2'){
+                            r.style.setProperty('--lit_2', thisPickers[j].value + '%');
+                            lightness_value_theme_2.innerHTML = thisPickers[j].value;
+                        }
+                    
+
+                        // Call the bg and fg functions:
+                        getTextFGC();
+                        getThemeBGC();
+                    });
+                }
+                
+                // 
+                //let thisH1 = thisDisplay.getElementsByClassName;
+                
+                /*elem.getAttribute('data');
+                
+                console.log(thisControl);
+                */
+            }
+
+
+
+
+
+    
+    
+</script>
+
+</body>
+</html>

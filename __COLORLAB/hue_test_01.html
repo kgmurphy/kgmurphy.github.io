@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <link rel="stylesheet" href="../_STYLES/ui.css">
+    <style>
+    :root {
+    --brand-hue : 71;
+    --brand-saturation: 100%;
+    --brand-lightness: 50%;
+    --radius: 50%;
+}
+
+* {
+/*-- MAIN --*/
+    --brand-light : hsl(var(--brand-hue), var(--brand-saturation), var(--brand-lightness));
+/*-- TEXT --*/
+    --text1-light: hsl(var(--brand-hue) var(--brand-saturation) 10%);
+    --text2-light: hsl(var(--brand-hue) 30% 30%);   
+/*-- SURFACES --*/
+    --surface1-light: hsl(var(--brand-hue) 25% 90%);
+    --surface2-light: hsl(var(--brand-hue) 20% 99%);
+    --surface3-light: hsl(var(--brand-hue) 20% 92%);
+    --surface4-light: hsl(var(--brand-hue) 20% 85%);
+
+    /*-- UI --*/
+--background-color : hsl(var(--brand-hue), var(--brand-saturation), var(--brand-lightness));
+}
+
+
+
+
+
+body, html {
+    background-color: var(--background-color);
+}
+
+nav {
+    background-color: hsl(var(--brand-hue), var(--brand-saturation), calc(var(--brand-lightness) - 0%));
+}
+.bg {
+    padding: 0.5rem;
+    position: absolute;
+    border-radius: var(--radius);
+    display: block;
+    color: rgba(0,0,0,0.5);
+    overflow: hidden;
+    max-width: 48px;
+}
+
+#body_wrap {
+        border: solid 1px black;
+        height: calc(100vh - 6rem);
+        padding: 2rem;
+    }
+
+
+#logo {
+    line-height: 1rem;
+    font-size: 1em;
+}
+    </style>
+</head>
+<body>
+    <nav><span id="logo">CAOIMH --> Hue test_01</span></nav>
+    <section id="body_wrap">
+        <section id="color_section"></section>
+</section>
+
+<script>
+var r = document.documentElement;
+var steps = 20;
+var xoff= 40;
+var yoff= 40;
+var offset = 40;
+var raddiv = 1.25;
+var color_section = document.getElementById('color_section');
+
+function colorbox()
+{
+    for(var i = 0; i < steps; i++)
+{
+    for(var j = 0; j < steps; j++)  
+{
+        
+        //logo.style.color = "hsl(calc(var(--brand-hue) * 1), calc(var(--brand-saturation) * 1), calc(var(--brand-lightness) * -2)";
+        let color_box = document.createElement('div'); 
+        let compStyles = window.getComputedStyle(color_box);
+        color_box.classList.add('bg');
+        //r.style.setProperty('--brand-hue', i+j);
+        color_box.style.backgroundColor = "hsl(calc(var(--brand-hue) + " + j +") , calc(var(--brand-saturation) - " + i + "%), calc(var(--brand-lightness) - " + j + "%)";
+        color_box.style.marginTop = i * xoff + "px";
+        color_box.style.marginLeft = j * yoff + "px";
+        color_section.appendChild(color_box);
+        //color_section.style.height = steps * offset + "%";
+        //color_box.textContent = compStyles.getPropertyValue('background-color');
+        color_box.textContent = "__";
+        /*
+        color_box.style.borderBottomLeftRadius = i/raddiv + "px";
+        color_box.style.borderTopLeftRadius = i/raddiv + "px";
+        color_box.style.borderBottomRightRadius = i/raddiv + "px";
+        color_box.style.borderTopRightRadius = i/raddiv + "px";
+*/
+        
+
+
+
+}
+}
+}
+
+
+colorbox();
+</script>
+</body>
+</html>

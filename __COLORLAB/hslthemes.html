@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H --> HSL themes</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <link rel="stylesheet" href="../_STYLES/ui.css">
+
+
+    <style>
+    :root {
+    --main-hue : 300;
+    --main-saturation: 100%;
+    --main-lightness: 50%;
+    }
+
+    * {
+    /*-- MAIN --*/
+    --main-light : hsl(var(--main-hue), var(--main-saturation), var(--main-lightness));
+    } 
+
+    #body_wrap {
+        border: solid 1px black;
+        min-height: calc(100vh - 6rem);
+        padding: 2rem;
+
+        background-color: var(--main-light);
+    }
+
+
+
+    </style>
+</head>
+<body>
+<nav><span id="logo">CAOIMH --> HSL themes</span></nav>
+<section id="body_wrap">
+  
+    <section id="color_section">  
+        <div id="time_day" class="surface">DAY</div>
+        <div id="time_dusk" class="surface">DUSK</div>
+        <div id="time_night" class="surface">NIGHT</div>
+    </section>
+</section>
+
+<script>
+
+
+var r            = document.documentElement;
+
+
+</script>
+
+</body>
+</html>

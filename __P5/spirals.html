@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <script src="js/p5.min.js"></script>
+    <script src="https://unpkg.com/p5.js-svg@1.1.1"></script>
+
+
+
+</head>
+<body>
+
+<script>
+  let img;
+  let cnv;
+  let dot = 50;
+  let dit = 3;
+  
+  let mover;
+  let amt = 1;
+  let bugs = [];
+  let r = 2;
+  let w;
+  let frames = 3000;
+  let mago = 0.1;
+  let velo = 0.4;
+  let multo = 1;
+  let limito = 0.5;
+
+  let sw = 10;
+  let op = 50;
+  let fSize = 200;
+  let hsl_h = 0;
+  let hsl_s = 0;
+  let hsl_l = 100;
+
+  
+  
+  function preload(){
+    //img = loadImage('images/eggs.png');
+    font = loadFont('fonts/IBMPlexMono-Bold.otf');
+  }
+  
+  
+  function setup() {
+    
+    cnv = createCanvas(1400, 500);
+     // Initialize color mode to HSB
+     colorMode(HSL, 255);
+
+
+    for(let col = 0; col < width; col += dot){
+        for(let row = 0; row < height; row += dot){
+          //let c = img.get(col,row); 
+          //let huey = hue(c);
+          //let alphy = alpha(huey);
+          //if (huey > 200){ 
+          //for(let i = 0; i < amt; i++){
+          bugs.push(new Mover(col,row));
+          //}
+        //}
+      }
+    }
+
+    var pts_E = font.textToPoints('WORMS', 200, 350, fSize,{
+      sampleFactor: 0.1, // increase for more points
+      simplifyThreshold: 0.0 // increase to remove collinear points
+    });
+
+    for(var i = 0; i < pts_E.length; i++){
+      bugs.push(new Mover(pts_E[i].x,pts_E[i].y));
+      stroke(0,200,200);
+    }
+  
+    background(0);
+  }
+  
+  
+ 
+  
+  
+  function draw(){
+    if(frameCount < frames){
+   
+    for(let i = 0; i < bugs.length; i++){
+  
+        bugs[i].update();
+        bugs[i].edges();
+        line(bugs[i].pos.x,bugs[i].pos.y,bugs[i].pxpy.x, bugs[i].pxpy.y);  
+
+  
+        ellipse(bugs[i].pxpy.x,bugs[i].pxpy.y, sw, sw);
+        bugs[i].pxpy.x = bugs[i].pos.x;
+        bugs[i].pxpy.y = bugs[i].pos.y;
+       
+      } 
+
+      if(sw > 0){
+        sw -= 0.009;
+      }
+
+    } 
+
+    let string = "WORMS";
+    fill("black");
+    textFont(font);
+    textSize(fSize);
+    text(string, 200, 350);
+
+  }
+
+
+  
+  
+  class Mover {
+    
+    constructor(x,y){
+      this.pos = createVector(x,y);
+      this.vel = p5.Vector.random2D();
+      this.vel.mult(random(multo));
+      this.pxpy = createVector(x,y);
+      //this.color = color(kol/2);
+      //this.color_r = random(255);
+      //this.color_g = random(25);
+    }
+    
+    update(){
+      //let mouse = createVector(mouseX, mouseY);
+      //this.acc = p5.Vector.sub(mouse, this.pos);
+      
+      this.acc = p5.Vector.random2D();
+      this.acc.mult(.1);
+      this.acc.setMag(mago);
+      
+      this.vel.limit(velo);
+      this.vel.add(this.acc);
+      this.pos.add(this.vel.x, this.vel.y);
+      
+      stroke(25,100,0,op );
+      fill(hsl_h,hsl_s,hsl_l);
+      hsl_h += 0.0001;
+
+      hsl_s += 1;
+      //hsl_l += 0.001;
+    }
+    
+    edges(){
+      if(this.pos.y >= height){
+         this.pos.y = height;
+         this.vel.y *= -1;
+         }
+        if(this.pos.y <= 0){
+         this.pos.y = 0;
+         this.vel.y *= -1;
+         }
+        if(this.pos.x >= width){
+         this.pos.x = width;
+         this.vel.x *= -1;
+         }
+          if(this.pos.x <= 0){
+         this.pos.x = 0;
+         this.vel.x *= -1;
+         }
+    }
+  
+    
+
+  
+  }
+
+ 
+  </script>
+</body>
+</html>

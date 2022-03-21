@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H</title>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <script src="js/p5.min.js"></script>
+    <script src="https://unpkg.com/p5.js-svg@1.1.1"></script>
+
+<style>
+  canvas {
+    z-index: 1000;
+    position: absolute;
+    top: 0;
+  }
+</style>
+
+</head>
+<body>
+
+<script>
+  let img;
+  let cnv;
+  let gridstep;
+  let divider = 10;
+  let bugs = [];
+  let dot = 20;
+  let frames = 1000;
+  let sw = 2;
+  let op = 255;
+
+ 
+  function preload(){
+    img = loadImage('images/kevin.png');
+  }
+  
+  
+  function setup() {
+    
+    cnv = createCanvas(img.width, img.height);
+// randomize the bg
+
+
+    for(let col = 0; col < img.width; col += dot){
+        for(let row = 0; row < img.height; row += dot){
+            let c = img.get(col,row);
+            let b = brightness(c);
+            stroke(0);
+            let ro = map(b, 0, 100, 0, TWO_PI);
+            bugs.push(new Mover(col,row,c,ro)); 
+            fill(c);
+            
+/*
+            push();
+            translate(0,0,col,row);
+            rotate(ro);
+            rect(col,row,10,2);
+            pop();
+            */
+      }
+    }
+  
+
+
+    
+  }
+  
+
+  
+  
+  function draw(){
+    if(frameCount < frames){
+    strokeWeight(sw);
+    for(let i = 0; i < bugs.length; i++){
+        bugs[i].update();
+        bugs[i].display();
+        
+        /*
+        stroke(255);
+        line(bugs[i].pos.x,bugs[i].pos.y,bugs[i].pxpy.x, bugs[i].pxpy.y); 
+        bugs[i].pxpy.x = bugs[i].pos.x;
+        bugs[i].pxpy.y = bugs[i].pos.y;
+        */
+        
+        //ellipse(bugs[i].pos.x,bugs[i].pos.y,5,5);
+        
+       
+      } 
+
+      //sw -= 0.005;
+    } 
+
+  
+
+  }
+  
+  
+  class Mover {
+    
+    constructor(x,y,kol,ro){
+      this.pos = createVector(x,y);
+      this.vel = p5.Vector.random2D();
+      this.vel.mult(random(1));
+      this.pxpy = createVector(x,y);
+      this.color = color(kol);
+      this.color_r = random(255);
+      this.color_g = random(25);
+      this.rotation = ro;
+    }
+    
+    update(){
+      //let mouse = createVector(mouseX, mouseY);
+      //this.acc = p5.Vector.sub(mouse, this.pos);
+      /*
+      this.acc = p5.Vector.random2D();
+      this.acc.mult(.1);
+      this.acc.setMag(1);
+      
+      this.vel.limit(1);
+      this.vel.add(this.acc);
+      this.pos.add(this.vel.x, this.vel.y);
+      */
+
+
+
+    }
+
+
+    display() {
+        push();
+     
+     translate(this.pos.x, this.pos.y, this.pos.x + 10, this.pos.y);
+     rotate(this.rotation);
+     rect(this.pos.x, this.pos.y,10,2);
+     pop();
+
+    
+    }
+  
+  }
+
+
+  </script>
+</body>
+</html>

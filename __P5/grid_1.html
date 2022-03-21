@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C A O I M H --> Greys generator</title>
+    <script src="js/p5.min.js"></script>
+    <link rel="stylesheet" href="../_STYLES/normalise.css">
+    <link rel="stylesheet" href="../_STYLES/typography.css">
+    <link rel="stylesheet" href="../_STYLES/ui.css">
+
+
+    <style>
+     
+     :root {
+  --color-background: #010101;
+  --color-alpha-light: 0.25;
+  --color-alpha-extralight: 0.25;
+  --color-vertical-lines: rgba(255, 255, 255, var(--color-alpha-extralight));
+  --color-horizontal-lines: rgba(255, 255, 255, var(--color-alpha-extralight));
+  --color-diagonal-lines: rgba(255, 255, 255, var(--color-alpha-light));
+  --line-thickness-1: 1px;
+  --box-size: 8px;
+}
+
+body {
+    background-image: linear-gradient(
+      rgba(255, 0, 255, 0.25) 
+      1px, transparent 
+      1px), linear-gradient(90deg, 
+      rgba(255, 0, 255, 0.25) 
+      1px, transparent 
+      1px);
+  background-size: 
+  8px 
+  8px, 
+  8px 
+  8px, 
+  8px 
+  8px, 
+  8px 
+  8px;
+  background-position: 0 0, -0.5px 0, 0 0, 0 0;
+}
+
+
+    </style>
+</head>
+<body>
+<nav><span id = "logo">CAOIMH --> Figma buttons</span></nav>
+
+
+<script>
+
+let gridstep;
+let divider = 35;
+
+
+function setup() {
+    cnv = createCanvas(windowWidth, windowHeight);
+    gridstep = cnv.width/divider;
+    stroke(255);
+    background(0);
+ 
+    for(let i = 0; i < cnv.width; i += gridstep){
+        for(let j = 0; j < cnv.height; j+= gridstep){
+            strokeWeight(0.125);
+            point(i,j);
+            ellipse(i,j,1,1);
+            line(i,j, i+gridstep, j+gridstep);
+            line(i+gridstep,j, i, j+gridstep);
+      }
+
+    }
+
+    // verticals
+    for(let i = 0; i < cnv.width; i += gridstep){
+        line(i,0, i, height);
+    }
+
+    // horizontals
+    for(let j = 0; j < cnv.height; j += gridstep){
+        line(0,j,width,j);
+    }
+    
+    
+  }
+
+let x = 0;
+let y = 0;
+let rad = 10;
+let theta = 0;
+
+  function draw(){
+    translate(cnv.width/2, cnv.height/2);
+
+
+    ellipse(x,y,234,234);
+
+    y += sin(theta) * rad;
+    x += cos(theta) * rad;
+
+    theta += 0.01;
+
+
+    //grid();
+}
+
+
+
+</script>
+
+
+</body>
+</html>
