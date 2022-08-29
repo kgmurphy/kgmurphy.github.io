@@ -24,10 +24,10 @@
 <script>
 let img;
 let cnv;
-let dot = 20;
+let dot = 15;
 let dit = 3;
-let inc = 10;
-let sw = 2;
+let inc = 5;
+let sw = 3;
 
 
 
@@ -35,7 +35,7 @@ function preload(){
  // img = loadImage('images/seankin.png');
   //img = loadImage('images/oslo_small.png');
   //img = loadImage('images/erland.jpg');
-  img = loadImage('images/ravn.png');
+  img = loadImage('images/caoimh_s.png');
   
 }
 
@@ -56,13 +56,15 @@ function setup() {
       if(b < 63){
         strokeWeight(sw);
         stroke(color(c));
-        line(col,row,col + inc, row + inc);
+        line(col - inc,row - inc,col + inc, row + inc);
       }
+
+      
 
       else{
         strokeWeight(sw);
         stroke(color(c));
-        line(col + inc,row,col, row + inc);
+        line(col + inc,row + inc ,col, row);
       }
       ellipse(col, row, sw, sw);
     }
@@ -72,6 +74,12 @@ function setup() {
   //svg.beginRecord();
   
 }
+
+
+function mousePressed() { 
+    save(); // save current SVG graphics
+  }
+
 
 
 //, SVG

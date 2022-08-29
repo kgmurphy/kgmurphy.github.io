@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toasts</title>
+    <link rel="stylesheet" href="../_FONTS/inter.css">
+ 
+
+    <style>
+        /* Color variables */
+        :root {
+        --blue: #396BD7;
+        --green: #2C854F;
+        }
+        
+        html, body {
+            background-color: white;
+            font-family: 'Inter';
+        }
+
+        #contents {
+ 
+            
+        }
+
+        .bold {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            font-size: 1em;
+            line-height: 1rem;
+            margin: 0;
+        }
+        .toast {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            padding: 1rem;
+            margin: 2rem;
+            border-radius: 4px;
+
+            font-size: 1em;
+            line-height: 1rem;
+        }
+
+        .toast div {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        button {
+            margin-left: 1rem;
+        }
+/* Background colors */
+        .white {
+            background-color: white;
+        }
+
+        .blue {
+            background-color: var(--blue);
+            color: white;
+        }
+
+        .green {
+            background-color: var(--green);
+            color: white;
+        }
+/* Borders */
+        .border_top {
+            border-top: solid 4px #396BD7;
+        }
+        .border_bottom {
+            border-bottom: solid 4px #396BD7;
+        }
+        .border_left {
+            border-left: solid 4px #396BD7;
+        }
+/* Shadows */
+        .low{
+            box-shadow: 0px 1px 8px rgba(0,0,0,0.1);
+        }
+
+        .high{
+            box-shadow: 0px 4px 16px rgba(0,0,0,0.25);
+        }
+
+/* Icon */
+        .icon {
+        width : 1.25rem;
+        height : 1.25rem;
+        margin-right: 1rem;
+
+        background-image: url("data:image/svg+xml,%3Csvg width='20px' height='20px' viewBox='0 0 20 20' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cg id='GP-DS' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='Desktop-HD-Copy' transform='translate(-536.000000, -655.000000)' fill='%23000000'%3E%3Cpath d='M536,665 C536,670.52 540.47,675 545.99,675 C551.52,675 556,670.52 556,665 C556,659.48 551.52,655 545.99,655 C540.47,655 536,659.48 536,665 Z M538,665 C538,660.58 541.58,657 546,657 C550.42,657 554,660.58 554,665 C554,669.42 550.42,673 546,673 C541.58,673 538,669.42 538,665 Z M545,663 L545,670 L547,670 L547,663 L545,663 Z M545,660 L545,662 L547,662 L547,660 L545,660 Z' id='Shape'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E%0A");
+        background-repeat: no-repeat;    
+    }
+
+        </style>
+</head>
+<body>
+    <section id="contents">
+
+    </section>
+    <?xml version="1.0" encoding="UTF-8"?>
+    <svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="GP-DS" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="Desktop-HD-Copy" transform="translate(-536.000000, -655.000000)" fill="#000000"><path d="M536,665 C536,670.52 540.47,675 545.99,675 C551.52,675 556,670.52 556,665 C556,659.48 551.52,655 545.99,655 C540.47,655 536,659.48 536,665 Z M538,665 C538,660.58 541.58,657 546,657 C550.42,657 554,660.58 554,665 C554,669.42 550.42,673 546,673 C541.58,673 538,669.42 538,665 Z M545,663 L545,670 L547,670 L547,663 L545,663 Z M545,660 L545,662 L547,662 L547,660 L545,660 Z" id="Shape"></path></g></g></svg>
+
+</body>
+
+<script>
+var contents = document.getElementById('contents');
+
+var border_edges = {
+    border_left: "bl",
+    border_top: "bt",
+    border_bottom: "bb"
+  };
+
+  var bg_colors = {
+    white: "white",
+    blue: "blue",
+    green: "green"
+  };
+
+  var shadows = {
+    low: "low",
+    high: "high"
+  }
+
+var allTheBorders = [];
+var allTheBgColors = [];
+var allTheShadows = [];
+
+var allTheToasts = [];
+
+for (var shadow in shadows) {
+if(shadows.hasOwnProperty(shadow)){
+
+
+for (var border in border_edges) {
+    if (border_edges.hasOwnProperty(border)) 
+        for (var bgs in bg_colors) {
+            if (bg_colors.hasOwnProperty(bgs)) {
+                
+                allTheBgColors.push( bgs );
+                allTheBorders.push( border );
+                allTheToasts.push(
+                    '<div class="' + bgs + " " + shadow + " " /*+ border + " " */ + 'toast' + '"><div class="icon"></div><div><p class="bold">' + 'Background color: ' + bgs + ', ' + 'shadow: ' + shadow + ' ' /* + 'border: ' + border + ' ' */ + '<br/>' + ' ' + '</p><p>You have a new notification</p></div><div><button>x</button></div></div>'
+                );
+            }
+        }
+       
+    }
+
+}
+}
+
+
+for (var i = 0; i < allTheToasts.length; i++) {
+    //var newNode = document.createElement("div");
+    /*
+    var toast = allTheToasts[i];
+    toast.innerHTML += "<p>You have a new notification</p>";
+    contents.appendChild(toast);
+    */
+    console.log(allTheToasts[i]);
+    let divvy = document.createElement("div");
+    
+    divvy.innerHTML = allTheToasts[i];
+    contents.appendChild(divvy);
+
+}
+
+</script>
+
+</html>
