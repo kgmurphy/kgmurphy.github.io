@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="_STYLES/normalise.css">
+    <title>Toasts</title>
+    <style>
+        div {
+            padding: 1rem;
+            background-color: #ffcc00;
+            margin: 2rem;
+            border-radius: 2px;
+        }
+
+        .border_top {
+            border-top: solid 4px #000;
+        }
+        .border_bottom {
+            border-bottom: solid 4px #000;
+        }
+        .border_left {
+            border-left: solid 4px #000;
+        }
+        .border_right {
+            border-right: solid 4px #000;
+        }
+    </style>
+</head>
+<body>
+    <section id="contents">
+
+    </section>
+
+</body>
+
+<script>
+var contents = document.getElementById('contents');
+
+var border_edges = {
+    border_left: "bl",
+    border_right: "br",
+    border_top: "bt",
+    border_bottom: "bb"
+  };
+
+  var bg_colors = {
+    white: "white",
+    blue: "blue"
+  };
+
+  var shadows = {
+    low: "low",
+    high: "high"
+  }
+
+var allTheBorders = [];
+var allTheBgColors = [];
+var allTheShadows = [];
+
+
+for (var border in border_edges) {
+    if (border_edges.hasOwnProperty(border)) {
+        allTheBorders.push( border );
+    }
+}
+
+for (var bgs in bg_colors) {
+    if (bg_colors.hasOwnProperty(bgs)) {
+        allTheBgColors.push( bgs );
+    }
+}
+
+for (var i = 0; i < allTheBorders.length; i++) {
+    var newNode = document.createElement("div");
+    newNode.innerHTML = "<p>You have a new notification</p>";
+    contents.appendChild(newNode);
+
+    newNode.classList.add(allTheBorders[i]);
+
+    for(var j = 0; j < allTheBgColors.length; j++){
+        newNode.classList.add(allTheBgColors[i]);
+    }
+}
+
+</script>
+
+</html>

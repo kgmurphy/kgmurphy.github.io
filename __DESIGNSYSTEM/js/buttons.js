@@ -58,9 +58,7 @@
             if (buttonicons.hasOwnProperty(icon)) {
               for (var priority in buttonpriorities) {
                 if (buttonpriorities.hasOwnProperty(priority)) {
-                  count += 1;
-                  console.log(count);
-                  if (icon == "icon_only") {
+                 
                     allTheButts.push(
                       '<button class="' +
                         state +
@@ -74,51 +72,7 @@
                         '<?xml version="1.0" encoding="UTF-8"?>\n<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\n    <g id="GP-DS" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\n        <g id="Desktop-HD-Copy" transform="translate(-536.000000, -655.000000)" fill="#000000">\n            <path d="M536,665 C536,670.52 540.47,675 545.99,675 C551.52,675 556,670.52 556,665 C556,659.48 551.52,655 545.99,655 C540.47,655 536,659.48 536,665 Z M538,665 C538,660.58 541.58,657 546,657 C550.42,657 554,660.58 554,665 C554,669.42 550.42,673 546,673 C541.58,673 538,669.42 538,665 Z M545,663 L545,670 L547,670 L547,663 L545,663 Z M545,660 L545,662 L547,662 L547,660 L545,660 Z" id="Shape"></path>\n        </g>\n    </g>\n</svg>' +
                         "</button>"
                     );
-                  } else if (icon == "icon_left") {
-                    allTheButts.push(
-                      '<button class="' +
-                        state +
-                        " " +
-                        icon +
-                        " " +
-                        platform +
-                        " " +
-                        priority +
-                        ' btn">' +
-                        '<?xml version="1.0" encoding="UTF-8"?>\n<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\n    <g id="GP-DS" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\n        <g id="Desktop-HD-Copy" transform="translate(-536.000000, -655.000000)" fill="#000000">\n            <path d="M536,665 C536,670.52 540.47,675 545.99,675 C551.52,675 556,670.52 556,665 C556,659.48 551.52,655 545.99,655 C540.47,655 536,659.48 536,665 Z M538,665 C538,660.58 541.58,657 546,657 C550.42,657 554,660.58 554,665 C554,669.42 550.42,673 546,673 C541.58,673 538,669.42 538,665 Z M545,663 L545,670 L547,670 L547,663 L545,663 Z M545,660 L545,662 L547,662 L547,660 L545,660 Z" id="Shape"></path>\n        </g>\n    </g>\n</svg>' +
-                        "Button" +
-                        "</button>"
-                    );
-                  } else if (icon == "icon_right") {
-                    allTheButts.push(
-                      '<button class="' +
-                        state +
-                        " " +
-                        icon +
-                        " " +
-                        platform +
-                        " " +
-                        priority +
-                        ' btn">' +
-                        "Button" +
-                        '<?xml version="1.0" encoding="UTF-8"?>\n<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\n    <g id="GP-DS" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">\n        <g id="Desktop-HD-Copy" transform="translate(-536.000000, -655.000000)" fill="#000000">\n            <path d="M536,665 C536,670.52 540.47,675 545.99,675 C551.52,675 556,670.52 556,665 C556,659.48 551.52,655 545.99,655 C540.47,655 536,659.48 536,665 Z M538,665 C538,660.58 541.58,657 546,657 C550.42,657 554,660.58 554,665 C554,669.42 550.42,673 546,673 C541.58,673 538,669.42 538,665 Z M545,663 L545,670 L547,670 L547,663 L545,663 Z M545,660 L545,662 L547,662 L547,660 L545,660 Z" id="Shape"></path>\n        </g>\n    </g>\n</svg>' +
-                        "</button>"
-                    );
-                  } else if (icon == "icon_none") {
-                    allTheButts.push(
-                      '<button class="' +
-                        state +
-                        " " +
-                        icon +
-                        " " +
-                        platform +
-                        " " +
-                        priority +
-                        ' btn">' +
-                        "Button" +
-                        "</button>"
-                    );
-                  }
+                  
   
                   allTheStates.push(state);
   
